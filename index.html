@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sergey Shtro — AI Manager · COO</title>
+<meta name="description" content="Сергей Штро — AI-менеджер и COO с 3+ годами опыта. Строю AI-системы в продакшне: торговый робот +520%, HR-автоматизация ×20, EdTech 1.4M₽/мес.">
+<meta name="keywords" content="AI менеджер, COO, автоматизация, Claude API, Python, Москва, удалённо">
+<meta property="og:title" content="Sergey Shtro — AI Manager · COO">
+<meta property="og:description" content="Строю AI-системы с измеримым ROI. 3+ лет COO, 15+ проектов в продакшне.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/CustomEase.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#030305;--white:#ededf2;--muted:#52525f;
+  --accent:#6c6cff;--accent2:#ff6caa;--green:#2dffb4;
+  --surface:rgba(255,255,255,.04);
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'Space Grotesk','Inter',sans-serif;overflow-x:hidden;cursor:none}
+
+/* ── AIRCORD-STYLE CURSOR ────────────────────────────── */
+#cursor{
+  position:fixed;z-index:9999;pointer-events:none;
+  top:0;left:0;
+}
+.c-dot{
+  position:absolute;
+  width:6px;height:6px;
+  background:var(--accent);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:width .2s,height .2s,background .2s;
+}
+.c-circle{
+  position:absolute;
+  width:44px;height:44px;
+  border:1.5px solid rgba(108,108,255,.6);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:width .4s cubic-bezier(.23,1,.32,1),
+             height .4s cubic-bezier(.23,1,.32,1),
+             border-color .3s,background .3s;
+}
+.c-text{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  font-size:9px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:rgba(255,255,255,.9);
+  opacity:0;transition:opacity .3s;
+  white-space:nowrap;
+}
+body.cursor-hover .c-circle{
+  width:80px;height:80px;
+  background:rgba(108,108,255,.1);
+  border-color:rgba(108,108,255,.9);
+}
+body.cursor-hover .c-dot{width:4px;height:4px;background:rgba(108,108,255,.8)}
+body.cursor-hover .c-text{opacity:1}
+body.cursor-link .c-circle{
+  width:64px;height:64px;
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.5);
+}
+/* ── CANVAS ──────────────────────────────────────────── */
+#canvas-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
+
+/* ── NAV ─────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:32px 64px;
+}
+.nav-logo{
+  font-size:14px;font-weight:700;letter-spacing:.5px;
+  text-transform:uppercase;color:rgba(255,255,255,.9);
+  text-decoration:none;
+}
+.nav-links{display:flex;gap:48px}
+.nav-links a{
+  font-size:12px;color:rgba(255,255,255,.38);
+  text-decoration:none;letter-spacing:.5px;text-transform:uppercase;
+  transition:color .3s;position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-2px;left:0;
+  width:0;height:1px;background:var(--accent);
+  transition:width .3s;
+}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{width:100%}
+.nav-avail{
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.5px;
+}
+.nav-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 8px var(--green);
+  animation:blink 2s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ── PAGE SYSTEM ─────────────────────────────────────── */
+.page{
+  position:relative;z-index:10;
+  min-height:100vh;width:100%;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:120px 64px;
+}
+
+/* ── PAGE 1: HERO ────────────────────────────────────── */
+.hero-tag{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-bottom:40px;
+  opacity:0;transform:translateY(12px);
+}
+.hero-tag-line{width:24px;height:1px;background:var(--accent)}
+.hero-h1{
+  font-size:clamp(72px,11vw,144px);
+  font-weight:700;letter-spacing:-5px;line-height:.92;
+  margin-bottom:56px;
+}
+.hero-h1 .row{display:block;overflow:hidden}
+.hero-h1 .w{display:inline-block;opacity:0;clip-path:inset(0 0 110% 0)}
+.hero-h1 .dim{color:rgba(255,255,255,.15)}
+.hero-h1 .ac{
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-foot{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  opacity:0;transform:translateY(16px);
+}
+.hero-desc{font-size:15px;color:rgba(255,255,255,.42);line-height:1.8;max-width:360px}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.5);text-decoration:none;
+  transition:color .3s;
+}
+.hero-cta-arrow{
+  width:44px;height:44px;border:1px solid rgba(255,255,255,.15);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:18px;transition:all .35s;
+}
+.hero-cta:hover{color:#fff}
+.hero-cta:hover .hero-cta-arrow{
+  background:var(--accent);border-color:var(--accent);
+  transform:rotate(45deg);
+}
+
+/* ── STATS BAR ───────────────────────────────────────── */
+.stats-bar{
+  position:relative;z-index:10;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.st{
+  padding:52px 64px;
+  border-right:1px solid rgba(255,255,255,.07);
+  opacity:0;clip-path:inset(0 0 100% 0);
+}
+.st:last-child{border-right:none}
+.st-n{
+  font-size:clamp(40px,5vw,64px);
+  font-weight:700;letter-spacing:-2.5px;line-height:1;
+  margin-bottom:10px;
+}
+.g{background:linear-gradient(135deg,var(--green),#2da8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.p{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.w{background:linear-gradient(135deg,#fff,rgba(255,255,255,.5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.st-l{font-size:13px;color:rgba(255,255,255,.32);line-height:1.5}
+
+/* ── PAGE 2: WORK ────────────────────────────────────── */
+.pg-tag{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:20px}
+.pg-title{font-size:clamp(40px,6vw,72px);font-weight:700;letter-spacing:-2.5px;line-height:1.05;margin-bottom:72px}
+.pg-title .dim{color:rgba(255,255,255,.18)}
+
+.case-list{display:flex;flex-direction:column}
+.ci{
+  display:grid;grid-template-columns:64px 1fr auto;
+  align-items:center;gap:48px;
+  padding:32px 0;
+  border-top:1px solid rgba(255,255,255,.06);
+  opacity:0;clip-path:inset(100% 0 0 0);
+  text-decoration:none;color:inherit;
+  transition:padding .4s;
+  cursor:none;
+}
+.ci:last-child{border-bottom:1px solid rgba(255,255,255,.06)}
+.ci:hover{padding-left:24px}
+.ci-n{font-size:11px;color:rgba(255,255,255,.18);letter-spacing:1px}
+.ci-body{}
+.ci-title{font-size:19px;font-weight:700;letter-spacing:-.3px;margin-bottom:6px;transition:color .3s}
+.ci:hover .ci-title{color:var(--accent)}
+.ci-desc{font-size:13px;color:rgba(255,255,255,.35);line-height:1.6}
+.ci-right{text-align:right;white-space:nowrap}
+.ci-res{font-size:34px;font-weight:700;letter-spacing:-1.5px}
+.ci-tag{font-size:10px;color:rgba(255,255,255,.2);letter-spacing:1px;margin-top:4px}
+
+/* ── SECTION 3D CANVAS ───────────────────────────────── */
+.sec-canvas{
+  position:absolute;right:-20px;top:50%;transform:translateY(-50%);
+  width:480px;height:480px;
+  pointer-events:none;
+  z-index:1;
+}
+.page{position:relative;overflow:visible}
+
+/* ── OVERLAY 3D CANVAS ───────────────────────────────── */
+#ov-canvas{
+  position:fixed;top:0;right:0;
+  width:45vw;height:100vh;
+  pointer-events:none;z-index:501;
+  opacity:0;
+}
+
+/* ── PAGE 3: SKILLS ──────────────────────────────────── */
+.skills-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.skills-left{}
+.stack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:0}
+.stack-item{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;padding:20px 16px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  opacity:0;clip-path:inset(0 0 100% 0);
+  transition:background .3s,border-color .3s,transform .3s;
+  cursor:none;
+}
+.stack-item:hover{background:rgba(108,108,255,.08);border-color:rgba(108,108,255,.25);transform:translateY(-4px)}
+.stack-icon{font-size:28px}
+.stack-name{font-size:11px;font-weight:600;letter-spacing:.5px;color:rgba(255,255,255,.5);text-align:center}
+.skills-right{display:flex;flex-direction:column;gap:16px}
+.skill-cat{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;padding:28px;
+  opacity:0;clip-path:inset(0 100% 0 0);
+  transition:border-color .3s;
+}
+.skill-cat:hover{border-color:rgba(108,108,255,.2)}
+.skill-cat-title{font-size:15px;font-weight:700;margin-bottom:8px;letter-spacing:-.2px}
+.skill-cat-desc{font-size:13px;color:rgba(255,255,255,.38);line-height:1.6;margin-bottom:14px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:11px;padding:4px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px;color:rgba(255,255,255,.38)}
+
+/* ── PAGE 4: ABOUT ───────────────────────────────────── */
+.about-wrap{display:grid;grid-template-columns:1fr 1fr;gap:120px;align-items:center}
+.about-big{font-size:clamp(52px,8vw,100px);font-weight:700;letter-spacing:-3.5px;line-height:.9;margin-bottom:40px;opacity:0;clip-path:inset(0 0 100% 0)}
+.about-big .ac{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.about-p{font-size:15px;color:rgba(255,255,255,.44);line-height:1.9;margin-bottom:18px;opacity:0;clip-path:inset(0 0 100% 0)}
+.about-p b{color:rgba(255,255,255,.82);font-weight:500}
+.info-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:16px;padding:8px;
+  opacity:0;clip-path:inset(0 100% 0 0);
+}
+.ir{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-radius:8px;font-size:13px;transition:background .2s}
+.ir:hover{background:rgba(255,255,255,.03)}
+.il{color:rgba(255,255,255,.28)}
+.iv{color:rgba(255,255,255,.78);font-weight:500}
+.iv.av{color:var(--green)}
+
+/* ── PAGE 5: CONTACT ─────────────────────────────────── */
+.contact-pg{align-items:center;justify-content:center;text-align:center;gap:0}
+.cta-pre{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:28px;opacity:0;clip-path:inset(0 100% 0 0)}
+.cta-big{
+  font-size:clamp(56px,10vw,120px);
+  font-weight:700;letter-spacing:-4px;line-height:.9;
+  margin-bottom:20px;opacity:0;clip-path:inset(0 0 100% 0);
+}
+.cta-big .ac{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cta-sub{font-size:16px;color:rgba(255,255,255,.35);margin-bottom:52px;opacity:0;clip-path:inset(0 0 100% 0)}
+.cta-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;opacity:0;clip-path:inset(0 0 100% 0)}
+.cl{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 28px;
+  border:1px solid rgba(255,255,255,.12);border-radius:100px;
+  font-size:13px;color:rgba(255,255,255,.55);
+  text-decoration:none;transition:all .3s;cursor:none;
+}
+.cl:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.22);color:#fff;transform:translateY(-3px)}
+.cl.pri{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 0 40px rgba(108,108,255,.3)}
+.cl.pri:hover{box-shadow:0 8px 48px rgba(108,108,255,.5);transform:translateY(-3px)}
+
+/* ── FOOTER ──────────────────────────────────────────── */
+footer{
+  position:relative;z-index:10;
+  border-top:1px solid rgba(255,255,255,.06);
+  padding:28px 64px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:11px;color:rgba(255,255,255,.2);letter-spacing:.5px;
+}
+
+/* ── PAGE COUNTER ────────────────────────────────────── */
+#pg-counter{
+  position:fixed;left:32px;bottom:32px;z-index:300;
+  font-size:10px;font-weight:700;letter-spacing:2px;
+  color:rgba(255,255,255,.22);
+  font-variant-numeric:tabular-nums;
+}
+#pg-counter .cur{color:rgba(255,255,255,.7)}
+
+/* ── PROGRESS DOTS ───────────────────────────────────── */
+.progress{
+  position:fixed;right:32px;top:50%;transform:translateY(-50%);
+  z-index:300;display:flex;flex-direction:column;gap:10px;
+}
+.pd{
+  width:4px;height:4px;border-radius:50%;
+  background:rgba(255,255,255,.2);
+  transition:all .35s;cursor:pointer;
+}
+.pd.act{background:var(--accent);height:24px;border-radius:3px}
+
+/* ── SCROLL PROGRESS ─────────────────────────────────── */
+#scroll-bar{
+  position:fixed;top:0;left:0;height:1px;width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  z-index:9999;pointer-events:none;
+  transition:width .05s linear;
+}
+
+/* ── LOADER ──────────────────────────────────────────── */
+#loader{
+  position:fixed;inset:0;z-index:9000;
+  background:var(--black);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+  transition:opacity .6s ease,transform .6s ease;
+}
+#loader.out{opacity:0;pointer-events:none}
+.ld-name{
+  font-size:13px;font-weight:700;letter-spacing:6px;text-transform:uppercase;
+  color:rgba(255,255,255,.9);
+}
+.ld-bar{
+  width:120px;height:1px;background:rgba(255,255,255,.1);overflow:hidden;
+}
+.ld-fill{
+  height:100%;background:var(--accent);
+  animation:ldprog 1s ease forwards;
+}
+@keyframes ldprog{from{width:0}to{width:100%}}
+
+/* ── NOISE OVERLAY ───────────────────────────────────── */
+#noise{
+  position:fixed;inset:0;z-index:1;
+  pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+}
+
+/* ── MARQUEE ─────────────────────────────────────────── */
+.marquee-wrap{
+  position:relative;z-index:10;
+  overflow:hidden;
+  border-top:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:20px 0;
+  background:rgba(255,255,255,.01);
+}
+.marquee-track{
+  display:flex;gap:0;
+  animation:marquee 22s linear infinite;
+  width:max-content;
+}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{
+  display:flex;align-items:center;gap:32px;
+  padding:0 32px;
+  font-size:12px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:rgba(255,255,255,.25);
+  white-space:nowrap;
+}
+.marquee-sep{color:var(--accent);font-size:18px;line-height:1}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── MAGNETIC BUTTON ─────────────────────────────────── */
+.magnetic{display:inline-block;transition:transform .1s}
+
+/* ── HOVER LINE LINKS (nickzoutendijk style) ─────────── */
+.contact-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:28px 0;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  text-decoration:none;color:var(--white);
+  overflow:hidden;position:relative;
+  transition:padding .4s cubic-bezier(.23,1,.32,1);
+  cursor:none;
+}
+.contact-item::before{
+  content:'';position:absolute;inset:0;
+  background:rgba(108,108,255,.05);
+  transform:translateX(-101%);
+  transition:transform .5s cubic-bezier(.23,1,.32,1);
+}
+.contact-item:hover::before{transform:translateX(0)}
+.contact-item:hover{padding-left:20px}
+.ci-label{font-size:clamp(28px,4vw,48px);font-weight:700;letter-spacing:-1px}
+.ci-arrow{
+  width:48px;height:48px;border:1px solid rgba(255,255,255,.15);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:20px;transition:all .4s cubic-bezier(.23,1,.32,1);
+  flex-shrink:0;
+}
+.contact-item:hover .ci-arrow{
+  background:var(--accent);border-color:var(--accent);
+  transform:rotate(45deg) scale(1.1);
+}
+.ci-type{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase}
+
+/* ── CONTACT FORM ────────────────────────────────────── */
+.form-field{display:flex;flex-direction:column;gap:8px}
+.form-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.form-input{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  padding:16px 20px;
+  font-size:15px;
+  color:#fff;
+  font-family:inherit;
+  outline:none;
+  transition:border-color .3s, background .3s, box-shadow .3s;
+  width:100%;
+  box-sizing:border-box;
+}
+.form-input::placeholder{color:rgba(255,255,255,.2)}
+.form-input:focus{
+  border-color:rgba(108,108,255,.5);
+  background:rgba(108,108,255,.04);
+  box-shadow:0 0 0 3px rgba(108,108,255,.08);
+}
+.form-btn{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--accent);
+  border:none;border-radius:10px;
+  padding:16px 32px;
+  font-size:14px;font-weight:700;letter-spacing:.5px;
+  color:#fff;cursor:pointer;
+  transition:transform .3s cubic-bezier(.23,1,.32,1), box-shadow .3s, background .3s;
+  font-family:inherit;
+}
+.form-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 40px rgba(108,108,255,.35);
+  background:#7c7cff;
+}
+.form-btn-arrow{transition:transform .3s cubic-bezier(.23,1,.32,1)}
+.form-btn:hover .form-btn-arrow{transform:translateX(4px)}
+.form-success{
+  display:none;
+  padding:24px 28px;
+  border:1px solid rgba(108,108,255,.25);
+  border-radius:12px;
+  background:rgba(108,108,255,.06);
+  color:rgba(255,255,255,.7);
+  font-size:15px;
+  line-height:1.7;
+}
+
+@media(max-width:768px){
+  nav{padding:24px}
+  .nav-links{display:none}
+  .page{padding:100px 24px}
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .st{padding:36px 24px}
+  .ci{grid-template-columns:40px 1fr;gap:20px}
+  .ci-right{display:none}
+  .skills-wrap{grid-template-columns:1fr}
+  .stack-grid{grid-template-columns:repeat(3,1fr)}
+  .about-wrap{grid-template-columns:1fr;gap:48px}
+  footer{flex-direction:column;gap:12px;padding:24px}
+  .progress{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="scroll-bar"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-name">S. Shtro</div>
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+</div>
+
+<!-- CURSOR (aircord-style) -->
+<div id="cursor">
+  <div class="c-dot" id="cdot"></div>
+  <div class="c-circle" id="ccirc"></div>
+  <div class="c-text" id="ctext"></div>
+</div>
+
+<canvas id="canvas-bg"></canvas>
+<div id="noise"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#p1" class="nav-logo">S. Shtro</a>
+  <div class="nav-links">
+    <a href="#p2">Кейсы</a>
+    <a href="#p3">Навыки</a>
+    <a href="#p4">О себе</a>
+    <a href="#p5">Контакт</a>
+  </div>
+  <div class="nav-avail"><div class="nav-dot"></div>Открыт к предложениям</div>
+</nav>
+
+<div id="pg-counter"><span class="cur" id="pc-cur">01</span> / 05</div>
+
+<!-- PROGRESS DOTS -->
+<div class="progress">
+  <div class="pd act" data-target="#p1"></div>
+  <div class="pd" data-target="#p2"></div>
+  <div class="pd" data-target="#p3"></div>
+  <div class="pd" data-target="#p4"></div>
+  <div class="pd" data-target="#p5"></div>
+</div>
+
+<!-- PAGE 1: HERO -->
+<section class="page" id="p1">
+  <div class="hero-tag">
+    <div class="hero-tag-line"></div>
+    AI Manager · COO · Москва · 2026
+  </div>
+  <h1 class="hero-h1">
+    <span class="row"><span class="w">Строю</span></span>
+    <span class="row"><span class="w ac">AI‑системы</span></span>
+    <span class="row"><span class="w dim">которые</span></span>
+    <span class="row"><span class="w">работают.</span></span>
+  </h1>
+  <div class="hero-foot">
+    <p class="hero-desc">3+ лет COO. 15+ AI-проектов в продакшне.<br>Внедряю ИИ с измеримым ROI — не слайды, а системы.</p>
+    <a href="#p2" class="hero-cta">
+      Смотреть кейсы
+      <div class="hero-cta-arrow">→</div>
+    </a>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="st"><div class="st-n g">+520%</div><div class="st-l">Рост портфеля<br>$5k → $31k за 3 года</div></div>
+  <div class="st"><div class="st-n p">×20</div><div class="st-l">HR-автоматизация<br>40ч → 2ч в неделю</div></div>
+  <div class="st"><div class="st-n w">40M+</div><div class="st-l">₽ выручка<br>под управлением</div></div>
+  <div class="st"><div class="st-n p">15+</div><div class="st-l">AI-проектов<br>в продакшне</div></div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="mtrack">
+    <div class="marquee-item">AI Manager <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">COO <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">Python <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">Claude API <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">n8n <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">Автоматизация <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">Operations <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">Playwright <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">P&L <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">Make <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">AI Manager <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">COO <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">Python <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">Claude API <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">n8n <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">Автоматизация <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">Operations <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">Playwright <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">P&L <span class="marquee-sep">✦</span></div>
+    <div class="marquee-item">Make <span class="marquee-sep">✦</span></div>
+  </div>
+</div>
+
+<!-- PAGE 2: WORK -->
+<section class="page" id="p2">
+  <div class="pg-tag">01 — Кейсы</div>
+  <h2 class="pg-title">Результаты,<br><span class="dim">а не обещания</span></h2>
+  <div class="case-list">
+    <div class="ci">
+      <div class="ci-n">001</div>
+      <div class="ci-body">
+        <div class="ci-title">Алготрейдинг XAUUSD</div>
+        <div class="ci-desc">Автономная торговая система: риск-менеджмент, 80+ паттернов, просадка &lt;12%. Привлечён внешний капитал $10k.</div>
+      </div>
+      <div class="ci-right"><div class="ci-res g">+520%</div><div class="ci-tag">AI · TRADING · 3+ ГОДА</div></div>
+    </div>
+    <div class="ci">
+      <div class="ci-n">002</div>
+      <div class="ci-body">
+        <div class="ci-title">Автоматизация HR-воронки</div>
+        <div class="ci-desc">AI-скринер 1000 резюме + Telegram-бот первичного интервью. Найм ускорился в 20 раз, срок закрытия вакансии: 21 → 12 дней.</div>
+      </div>
+      <div class="ci-right"><div class="ci-res p">×20</div><div class="ci-tag">AI · HR · AUTOMATION</div></div>
+    </div>
+    <div class="ci">
+      <div class="ci-n">003</div>
+      <div class="ci-body">
+        <div class="ci-title">COO — Capital Skills</div>
+        <div class="ci-desc">Выстроил операционную систему с нуля. Оборот под управлением 40M+ ₽, пиковая выручка с потока 18M+ ₽, churn 35% → 14%.</div>
+      </div>
+      <div class="ci-right"><div class="ci-res" style="color:#ffb347">18M+</div><div class="ci-tag">COO · EDTECH · P&L</div></div>
+    </div>
+    <div class="ci">
+      <div class="ci-n">004</div>
+      <div class="ci-body">
+        <div class="ci-title">Ахиллес — Personal AI OS</div>
+        <div class="ci-desc">Проактивный ассистент на VPS: голос, Playwright-автоматизация, мониторинг рынка и карьеры. Аналог бизнес-ассистента за цену сервера.</div>
+      </div>
+      <div class="ci-right"><div class="ci-res p">24/7</div><div class="ci-tag">AI · PRODUCT · IN PROD</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3: SKILLS + STACK -->
+<section class="page" id="p3">
+  <div class="pg-tag">02 — Навыки и стек</div>
+  <h2 class="pg-title">Инструменты<br><span class="dim">и экспертиза</span></h2>
+  <div class="skills-wrap">
+    <div class="skills-left">
+      <div style="font-size:12px;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px">Технологии</div>
+      <div class="stack-grid">
+        <div class="stack-item"><div class="stack-icon">🤖</div><div class="stack-name">Claude API</div></div>
+        <div class="stack-item"><div class="stack-icon">⚡</div><div class="stack-name">GPT-4</div></div>
+        <div class="stack-item"><div class="stack-icon">🔗</div><div class="stack-name">n8n</div></div>
+        <div class="stack-item"><div class="stack-icon">⚙️</div><div class="stack-name">Make</div></div>
+        <div class="stack-item"><div class="stack-icon">🐍</div><div class="stack-name">Python</div></div>
+        <div class="stack-item"><div class="stack-icon">🎭</div><div class="stack-name">Playwright</div></div>
+        <div class="stack-item"><div class="stack-icon">📊</div><div class="stack-name">GSheets</div></div>
+        <div class="stack-item"><div class="stack-icon">✉️</div><div class="stack-name">Telegram API</div></div>
+        <div class="stack-item"><div class="stack-icon">🗄️</div><div class="stack-name">Flask</div></div>
+      </div>
+    </div>
+    <div class="skills-right">
+      <div class="skill-cat">
+        <div class="skill-cat-title">🤖 AI & Автоматизация</div>
+        <div class="skill-cat-desc">Строю рабочие системы с измеримым ROI — не пресеты, а кастомные решения.</div>
+        <div class="tags"><span class="tag">Claude API</span><span class="tag">GPT-4</span><span class="tag">n8n</span><span class="tag">Make</span><span class="tag">Python</span><span class="tag">Playwright</span></div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">⚙️ Операционное управление</div>
+        <div class="skill-cat-desc">3+ лет COO: процессы с нуля, команды до 15 чел, P&L, OKR.</div>
+        <div class="tags"><span class="tag">OKR/KPI</span><span class="tag">P&L</span><span class="tag">Битрикс24</span><span class="tag">amoCRM</span><span class="tag">Unit-экономика</span></div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">📊 Аналитика и продукт</div>
+        <div class="skill-cat-desc">Решения по данным: A/B тесты, воронки, когорты, юнит-экономика.</div>
+        <div class="tags"><span class="tag">GA</span><span class="tag">Метрика</span><span class="tag">SQL</span><span class="tag">A/B тесты</span><span class="tag">ICE score</span><span class="tag">GetCourse</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4: ABOUT -->
+<section class="page" id="p4">
+  <div class="about-wrap">
+    <div>
+      <div class="pg-tag" style="margin-bottom:24px">03 — О себе</div>
+      <h2 class="about-big">Сергей<br><span class="ac">Штро</span></h2>
+      <p class="about-p">Мне <b>23 года</b>. 3+ лет операционным директором — строил процессы с нуля, управлял командами, отвечал за P&L.</p>
+      <p class="about-p">Последние два года строю <b>AI-системы в продакшне</b>. Не как энтузиаст с ChatGPT — торговый робот, HR-автоматизация, персональный ассистент работают прямо сейчас.</p>
+      <p class="about-p">Ищу роль где нужно <b>не «внедрить ИИ» как идею</b>, а построить инструмент который меняет экономику процесса. С цифрами до и после.</p>
+    </div>
+    <div>
+      <div class="info-card">
+        <div class="ir"><span class="il">Статус</span><span class="iv av">● Открыт к предложениям</span></div>
+        <div class="ir"><span class="il">Локация</span><span class="iv">Москва · Удалённо</span></div>
+        <div class="ir"><span class="il">Роль</span><span class="iv">AI-менеджер · COO</span></div>
+        <div class="ir"><span class="il">Опыт</span><span class="iv">3+ лет COO · 15+ AI</span></div>
+        <div class="ir"><span class="il">Ожидания</span><span class="iv">от 150 000 ₽/мес</span></div>
+        <div class="ir"><span class="il">Email</span><span class="iv">aleksfan578@gmail.com</span></div>
+        <div class="ir"><span class="il">Telegram</span><span class="iv">@Sweet_SG</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5: CONTACT -->
+<section class="page" id="p5" style="justify-content:center">
+  <div class="pg-tag" style="margin-bottom:16px">04 — Контакт</div>
+  <h2 class="cta-big" style="margin-bottom:60px">Давайте<br><span class="ac">работать</span><br>вместе.</h2>
+  <div style="max-width:800px;width:100%">
+    <a href="mailto:aleksfan578@gmail.com" class="contact-item magnetic">
+      <div>
+        <div class="ci-type">Email</div>
+        <div class="ci-label">aleksfan578@gmail.com</div>
+      </div>
+      <div class="ci-arrow">→</div>
+    </a>
+    <a href="https://t.me/Sweet_SG" class="contact-item magnetic">
+      <div>
+        <div class="ci-type">Telegram</div>
+        <div class="ci-label">@Sweet_SG</div>
+      </div>
+      <div class="ci-arrow">→</div>
+    </a>
+    <a href="tel:+79126967455" class="contact-item magnetic">
+      <div>
+        <div class="ci-type">Телефон</div>
+        <div class="ci-label">+7 912 696-74-55</div>
+      </div>
+      <div class="ci-arrow">→</div>
+    </a>
+    <a href="https://hh.ru/resume/546508acff10851e940039ed1f483337557862" class="contact-item magnetic" target="_blank">
+      <div>
+        <div class="ci-type">Резюме</div>
+        <div class="ci-label">hh.ru / резюме</div>
+      </div>
+      <div class="ci-arrow">→</div>
+    </a>
+  </div>
+
+  <!-- ── ФОРМА ЗАЯВКИ ──────────────────────────────────── -->
+  <div id="contact-form-wrap" style="max-width:800px;width:100%;margin-top:80px;opacity:0">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:32px">Оставить заявку</div>
+    <form id="contact-form" style="display:flex;flex-direction:column;gap:20px" onsubmit="submitForm(event)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div class="form-field">
+          <label class="form-label">Имя</label>
+          <input type="text" id="f-name" class="form-input" placeholder="Александр" required autocomplete="off">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Компания</label>
+          <input type="text" id="f-company" class="form-input" placeholder="Acme Corp" autocomplete="off">
+        </div>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Email</label>
+        <input type="email" id="f-email" class="form-input" placeholder="you@company.com" required autocomplete="off">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Запрос</label>
+        <textarea id="f-msg" class="form-input" rows="4" placeholder="Коротко — задача, контекст, бюджет" required style="resize:vertical;min-height:120px"></textarea>
+      </div>
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+        <button type="submit" class="form-btn">
+          <span>Отправить заявку</span>
+          <span class="form-btn-arrow">→</span>
+        </button>
+        <a href="https://t.me/Sweet_SG" target="_blank" style="font-size:13px;color:rgba(255,255,255,.35);text-decoration:none;letter-spacing:.5px;transition:color .3s" onmouseover="this.style.color='rgba(108,108,255,.9)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">или напиши в Telegram @Sweet_SG</a>
+      </div>
+    </form>
+  </div>
+
+</section>
+
+<footer>
+  <span>© 2026 Sergey Shtro</span>
+  <span>AI Manager · COO · Moscow</span>
+</footer>
+
+<script>
+// ── SCROLL PROGRESS ───────────────────────────────────
+const scrollBar=document.getElementById('scroll-bar');
+window.addEventListener('scroll',()=>{
+  const max=document.documentElement.scrollHeight-innerHeight;
+  scrollBar.style.width=(scrollY/max*100)+'%';
+},{ passive:true });
+
+// ── LOADER ────────────────────────────────────────────
+const loader=document.getElementById('loader');
+setTimeout(()=>loader.classList.add('out'),1100);
+
+// ── CURSOR (aircord-style) ────────────────────────────
+const curEl=document.getElementById('cursor');
+const cdot=document.getElementById('cdot');
+const ccirc=document.getElementById('ccirc');
+const ctext=document.getElementById('ctext');
+let mx=0,my=0,cx=0,cy=0;
+
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+
+// Dot follows immediately, circle follows with delay
+(function tick(){
+  cdot.style.transform=`translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
+  cx+=(mx-cx)*.1; cy+=(my-cy)*.1;
+  ccirc.style.transform=`translate(calc(${cx}px - 50%), calc(${cy}px - 50%))`;
+  ctext.style.transform=`translate(calc(${cx}px - 50%), calc(${cy}px - 50%))`;
+  requestAnimationFrame(tick);
+})();
+
+// Hover states
+document.querySelectorAll('.ci,.stack-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{document.body.classList.add('cursor-hover');ctext.textContent='VIEW'});
+  el.addEventListener('mouseleave',()=>{document.body.classList.remove('cursor-hover');ctext.textContent=''});
+});
+document.querySelectorAll('a,.cl,.hero-cta').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-link'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-link'));
+});
+
+// ── THREE.JS BACKGROUND ──────────────────────────────
+const canvas=document.getElementById('canvas-bg');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,100);
+cam.position.z=6;
+
+const pdata=[
+  {r:1.5,x:4,y:-.5,z:-2,col:0x6c6cff,wire:false,spd:.003},
+  {r:.8,x:-4.5,y:1.8,z:-3,col:0x2dffb4,wire:true,spd:.005},
+  {r:.4,x:2,y:3,z:-1,col:0xff6caa,wire:false,spd:.009},
+  {r:2.6,x:-2.5,y:-2.5,z:-7,col:0x2d2d88,wire:true,spd:.0015},
+  {r:.22,x:5,y:2.5,z:.5,col:0xffffff,wire:false,spd:.014},
+  {r:.5,x:-1.2,y:-3.8,z:-.5,col:0x6c6cff,wire:false,spd:.006},
+  {r:.18,x:-3,y:3.2,z:1,col:0x2dffb4,wire:false,spd:.02},
+];
+const planets=[];
+pdata.forEach(pd=>{
+  const geo=new THREE.SphereGeometry(pd.r,pd.wire?20:64,pd.wire?20:64);
+  const mat=pd.wire
+    ?new THREE.MeshBasicMaterial({color:pd.col,wireframe:true,opacity:.1,transparent:true})
+    :new THREE.MeshStandardMaterial({color:pd.col,roughness:.25,metalness:.92,opacity:.85,transparent:true,envMapIntensity:1});
+  const m=new THREE.Mesh(geo,mat);
+  m.position.set(pd.x,pd.y,pd.z);
+  m.userData={spd:pd.spd,fa:.1+Math.random()*.08,fo:Math.random()*Math.PI*2,oy:pd.y};
+  scene.add(m);planets.push(m);
+});
+
+// Lights
+scene.add(new THREE.AmbientLight(0xffffff,.1));
+[[0x6c6cff,3,3,5],[0x2dffb4,2,-3,3],[0xff6caa,1.5,0,4]].forEach(([c,i,x,y])=>{
+  const l=new THREE.PointLight(c,i,18);l.position.set(x,y,3);scene.add(l);
+});
+
+// Stars
+const sg=new THREE.BufferGeometry(),sc=2500,sp=new Float32Array(sc*3);
+for(let i=0;i<sc*3;i++)sp[i]=(Math.random()-.5)*50;
+sg.setAttribute('position',new THREE.BufferAttribute(sp,3));
+scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.011,transparent:true,opacity:.45})));
+
+let tx=0,ty=0,lcx=0,lcy=0,sy=0;
+document.addEventListener('mousemove',e=>{tx=(e.clientX/innerWidth-.5)*.5;ty=-(e.clientY/innerHeight-.5)*.5});
+window.addEventListener('scroll',()=>sy=scrollY);
+
+function animate(t){
+  requestAnimationFrame(animate);
+  lcx+=(tx-lcx)*.04;lcy+=(ty-lcy)*.04;
+  cam.position.x=lcx;cam.position.y=lcy-sy*.0006;
+  cam.lookAt(0,0,0);
+  planets.forEach(p=>{
+    p.rotation.y+=p.userData.spd;
+    p.rotation.x+=p.userData.spd*.2;
+    p.position.y=p.userData.oy+Math.sin(t*.0007+p.userData.fo)*p.userData.fa;
+  });
+  renderer.render(scene,cam);
+}
+animate(0);
+
+window.addEventListener('resize',()=>{
+  cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+
+// ── GSAP ─────────────────────────────────────────────
+gsap.registerPlugin(ScrollTrigger);
+
+// Hero
+gsap.to('.hero-tag',{opacity:1,y:0,duration:.9,delay:.4,ease:'power3.out'});
+gsap.to('.hero-h1 .w',{opacity:1,clipPath:'inset(0 0 0% 0)',duration:1.2,stagger:.1,delay:.65,ease:'power4.out'});
+gsap.to('.hero-foot',{opacity:1,y:0,duration:.9,delay:1.3,ease:'power3.out'});
+
+// Stats
+gsap.to('.st',{opacity:1,clipPath:'inset(0 0 0% 0)',duration:.7,stagger:.1,
+  scrollTrigger:{trigger:'.stats-bar',start:'top 85%'},ease:'power3.out'});
+
+// Section labels + titles
+gsap.utils.toArray('.pg-tag').forEach(el=>{
+  gsap.from(el,{clipPath:'inset(0 100% 0 0)',duration:.7,ease:'power3.out',
+    scrollTrigger:{trigger:el,start:'top 92%'}});
+});
+gsap.utils.toArray('.pg-title').forEach(el=>{
+  gsap.from(el,{clipPath:'inset(100% 0 0 0)',opacity:0,duration:1,ease:'power4.out',
+    scrollTrigger:{trigger:el,start:'top 88%'}});
+});
+
+// Cases
+gsap.to('.ci',{opacity:1,clipPath:'inset(0% 0 0 0)',duration:.75,stagger:.12,
+  scrollTrigger:{trigger:'.case-list',start:'top 80%'},ease:'power4.out'});
+
+// Stack
+gsap.to('.stack-item',{opacity:1,clipPath:'inset(0 0 0% 0)',duration:.55,stagger:.05,
+  scrollTrigger:{trigger:'.stack-grid',start:'top 80%'},ease:'power3.out'});
+gsap.to('.skill-cat',{opacity:1,clipPath:'inset(0 0% 0 0)',duration:.65,stagger:.12,
+  scrollTrigger:{trigger:'.skills-right',start:'top 80%'},ease:'power3.inOut'});
+
+// About
+gsap.to('.about-big',{opacity:1,clipPath:'inset(0 0 0% 0)',duration:1,ease:'power4.out',scrollTrigger:{trigger:'#p4',start:'top 75%'}});
+gsap.to('.about-p',{opacity:1,clipPath:'inset(0 0 0% 0)',duration:.75,stagger:.15,scrollTrigger:{trigger:'#p4',start:'top 75%'}});
+gsap.to('.info-card',{opacity:1,clipPath:'inset(0 0% 0 0)',duration:.9,ease:'power4.inOut',scrollTrigger:{trigger:'.info-card',start:'top 80%'}});
+
+// Contact items
+gsap.utils.toArray('.contact-item').forEach((el,i)=>{
+  gsap.from(el,{clipPath:'inset(0 0 100% 0)',opacity:0,duration:.6,delay:i*.08,ease:'power3.out',
+    scrollTrigger:{trigger:el,start:'top 90%'}});
+});
+
+// Contact
+gsap.to('.cta-pre',{opacity:1,clipPath:'inset(0 0% 0 0)',duration:.6,scrollTrigger:{trigger:'#p5',start:'top 80%'}});
+gsap.to('.cta-big',{opacity:1,clipPath:'inset(0 0 0% 0)',duration:1,delay:.1,ease:'power4.out',scrollTrigger:{trigger:'#p5',start:'top 80%'}});
+gsap.to('.cta-sub',{opacity:1,clipPath:'inset(0 0 0% 0)',duration:.7,delay:.2,scrollTrigger:{trigger:'#p5',start:'top 80%'}});
+gsap.to('.cta-links',{opacity:1,clipPath:'inset(0 0 0% 0)',duration:.7,delay:.3,scrollTrigger:{trigger:'#p5',start:'top 80%'}});
+gsap.to('#contact-form-wrap',{opacity:1,y:0,duration:.8,delay:.5,ease:'power3.out',scrollTrigger:{trigger:'#contact-form-wrap',start:'top 85%'}});
+gsap.set('#contact-form-wrap',{y:40});
+
+// Progress dots
+const pages=document.querySelectorAll('.page');
+const dots=document.querySelectorAll('.pd');
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      dots.forEach(d=>d.classList.remove('act'));
+      const idx=[...pages].indexOf(e.target);
+      if(dots[idx])dots[idx].classList.add('act');
+    }
+  });
+},{threshold:.5});
+pages.forEach(p=>io.observe(p));
+dots.forEach(d=>{
+  d.addEventListener('click',()=>{
+    document.querySelector(d.dataset.target).scrollIntoView({behavior:'smooth'});
+  });
+});
+
+// Page counter
+const pcCur=document.getElementById('pc-cur');
+const pcIO=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx=[...document.querySelectorAll('.page')].indexOf(e.target)+1;
+      if(idx>0)pcCur.textContent=String(idx).padStart(2,'0');
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('.page').forEach(p=>pcIO.observe(p));
+
+// Active nav highlight
+const navLinks=document.querySelectorAll('.nav-links a[href^="#"]');
+const navIO=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id='#'+e.target.id;
+      navLinks.forEach(a=>{
+        a.style.color=a.getAttribute('href')===id?'rgba(255,255,255,.9)':'rgba(255,255,255,.38)';
+      });
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('.page').forEach(p=>navIO.observe(p));
+
+// Smooth nav links
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth'});
+  });
+});
+
+// ── SECONDARY FIXED 3D CANVAS (switches per page) ────
+(function(){
+  // Create single fixed canvas
+  const secCv=document.createElement('canvas');
+  secCv.style.cssText='position:fixed;right:0;top:0;width:520px;height:100vh;pointer-events:none;z-index:5;transition:opacity .6s';
+  secCv.width=520*Math.min(devicePixelRatio,2);
+  secCv.height=innerHeight*Math.min(devicePixelRatio,2);
+  document.body.appendChild(secCv);
+
+  const SR=new THREE.WebGLRenderer({canvas:secCv,antialias:true,alpha:true});
+  SR.setPixelRatio(Math.min(devicePixelRatio,2));
+  SR.setSize(520,innerHeight);
+  SR.setScissorTest(true);
+  SR.setScissor(0,0,520,innerHeight);
+
+  const scenes={};
+  let currentScene=null,currentCamera=null;
+  let globalT=0;
+
+  // ── SCENE: TRADING CANDLES ──────────────────────────
+  (function(){
+    const s=new THREE.Scene();
+    const c=new THREE.PerspectiveCamera(45,520/innerHeight,.1,100);
+    c.position.set(0,2,9);c.lookAt(0,0,0);
+    s.add(new THREE.AmbientLight(0xffffff,.25));
+    const l1=new THREE.PointLight(0x2dffb4,4,20);l1.position.set(-2,4,5);s.add(l1);
+    const l2=new THREE.PointLight(0x6c6cff,3,15);l2.position.set(3,-2,4);s.add(l2);
+
+    const candleGroup=new THREE.Group();s.add(candleGroup);
+    const prices=[100];const N=20;
+    for(let i=1;i<N;i++) prices.push(prices[i-1]+(Math.random()-.46)*6);
+
+    const candleData=[];
+    for(let i=0;i<N;i++){
+      const o=prices[i],cl=prices[Math.min(i+1,N-1)];
+      const green=cl>=o;
+      const bh=Math.max(Math.abs(cl-o)*.05,.1);
+      const wh=bh+.15+Math.random()*.3;
+      const col=green?0x2dffb4:0xff3366;
+      const bMat=new THREE.MeshStandardMaterial({color:col,roughness:.15,metalness:.85,emissive:col,emissiveIntensity:.25,transparent:true,opacity:.92});
+      const wMat=new THREE.MeshStandardMaterial({color:col,roughness:.1,metalness:.9,transparent:true,opacity:.4});
+      const body=new THREE.Mesh(new THREE.BoxGeometry(.22,bh,.22),bMat);
+      const wick=new THREE.Mesh(new THREE.BoxGeometry(.04,wh,.04),wMat);
+      const x=(i-N/2)*.35;
+      const y=(o+cl)/2*.05-1.5;
+      body.position.set(x,y,0);
+      wick.position.set(x,y,0);
+      candleGroup.add(body);candleGroup.add(wick);
+      candleData.push({body,wick,phase:Math.random()*Math.PI*2,green,oy:y});
+    }
+
+    // Grid
+    const grid=new THREE.GridHelper(10,.5,0x1a1a44,0x0d0d22);
+    grid.position.y=-2.5;s.add(grid);
+
+    // Moving line (price)
+    const linePts=prices.map((p,i)=>new THREE.Vector3((i-N/2)*.35,(p-100)*.05-.5,0));
+    const lineGeo=new THREE.BufferGeometry().setFromPoints(linePts);
+    s.add(new THREE.Line(lineGeo,new THREE.LineBasicMaterial({color:0x2dffb4,transparent:true,opacity:.4})));
+
+    scenes.work={s,c,update:(t)=>{
+      candleGroup.rotation.y=Math.sin(t*.004)*.35;
+      candleGroup.rotation.x=Math.sin(t*.002)*.08;
+      candleData.forEach(d=>{
+        d.body.position.y=d.oy+Math.sin(t*.005+d.phase)*.06;
+        d.wick.position.y=d.body.position.y;
+        d.body.material.emissiveIntensity=.15+Math.sin(t*.01+d.phase)*.2;
+      });
+    }};
+  })();
+
+  // ── SCENE: NEURAL NETWORK ───────────────────────────
+  (function(){
+    const s=new THREE.Scene();
+    const c=new THREE.PerspectiveCamera(50,520/innerHeight,.1,100);
+    c.position.z=7;
+    s.add(new THREE.AmbientLight(0xffffff,.05));
+    const l=new THREE.PointLight(0x6c6cff,5,20);l.position.set(0,0,5);s.add(l);
+    const l2=new THREE.PointLight(0x2dffb4,3,15);l2.position.set(2,-2,4);s.add(l2);
+
+    const N=35,nodes=[],meshes=[];
+    for(let i=0;i<N;i++){
+      const th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1),r=1.5+Math.random()*1.5;
+      const x=r*Math.sin(ph)*Math.cos(th),y=r*Math.sin(ph)*Math.sin(th),z=r*Math.cos(ph);
+      const sz=.04+Math.random()*.06;
+      const col=Math.random()>.5?0x6c6cff:0x2dffb4;
+      const m=new THREE.Mesh(
+        new THREE.SphereGeometry(sz,12,12),
+        new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:.6,roughness:0,metalness:1})
+      );
+      m.position.set(x,y,z);s.add(m);
+      nodes.push({x,y,z,phase:Math.random()*Math.PI*2});meshes.push(m);
+    }
+
+    const lMat=new THREE.LineBasicMaterial({color:0x6c6cff,transparent:true,opacity:.12});
+    nodes.forEach((a,i)=>nodes.forEach((b,j)=>{
+      if(j<=i)return;
+      if(Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z)<2.2){
+        s.add(new THREE.Line(
+          new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(a.x,a.y,a.z),new THREE.Vector3(b.x,b.y,b.z)]),
+          lMat
+        ));
+      }
+    }));
+
+    // Pulses
+    const pulses=[];
+    for(let i=0;i<12;i++){
+      const from=nodes[Math.floor(Math.random()*N)],to=nodes[Math.floor(Math.random()*N)];
+      const m=new THREE.Mesh(new THREE.SphereGeometry(.05),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.9}));
+      s.add(m);pulses.push({m,from,to,t:Math.random(),speed:.006+Math.random()*.008});
+    }
+
+    const netGroup=new THREE.Group();
+    s.children.forEach(ch=>{if(ch!==l&&ch!==l2)netGroup.add(ch)});
+    // Actually don't group - just rotate scene
+    scenes.skills={s,c,update:(t)=>{
+      s.rotation.y=t*.001;
+      meshes.forEach((m,i)=>{
+        m.material.emissiveIntensity=.3+Math.sin(t*.008+nodes[i].phase)*.7;
+        const sc=.8+Math.sin(t*.006+nodes[i].phase)*.3;
+        m.scale.setScalar(sc);
+      });
+      pulses.forEach(p=>{
+        p.t=(p.t+p.speed)%1;
+        p.m.position.lerpVectors(
+          new THREE.Vector3(p.from.x,p.from.y,p.from.z),
+          new THREE.Vector3(p.to.x,p.to.y,p.to.z),p.t
+        );
+        p.m.material.opacity=Math.sin(p.t*Math.PI);
+      });
+    }};
+  })();
+
+  // ── SCENE: DNA HELIX ────────────────────────────────
+  (function(){
+    const s=new THREE.Scene();
+    const c=new THREE.PerspectiveCamera(45,520/innerHeight,.1,100);
+    c.position.z=7;
+    s.add(new THREE.AmbientLight(0xffffff,.15));
+    const l1=new THREE.PointLight(0xff6caa,4,15);l1.position.set(2,2,4);s.add(l1);
+    const l2=new THREE.PointLight(0x6c6cff,3,12);l2.position.set(-2,-2,3);s.add(l2);
+
+    const cnt=50,h1=[],h2=[],spheres=[];
+    for(let i=0;i<cnt;i++){
+      const t=i/cnt,ang=t*Math.PI*8,y=(t-.5)*7;
+      const x1=Math.cos(ang)*1.3,z1=Math.sin(ang)*1.3;
+      const x2=Math.cos(ang+Math.PI)*1.3,z2=Math.sin(ang+Math.PI)*1.3;
+      h1.push(new THREE.Vector3(x1,y,z1));
+      h2.push(new THREE.Vector3(x2,y,z2));
+      if(i%4===0){
+        const col=i%8===0?0xff6caa:0x6c6cff;
+        const mat1=new THREE.MeshStandardMaterial({color:col,roughness:.05,metalness:.95,emissive:col,emissiveIntensity:.4});
+        const m1=new THREE.Mesh(new THREE.SphereGeometry(.12,16,16),mat1);
+        const m2=new THREE.Mesh(new THREE.SphereGeometry(.12,16,16),mat1.clone());
+        m1.position.set(x1,y,z1);m2.position.set(x2,y,z2);
+        s.add(m1);s.add(m2);spheres.push({m1,m2,phase:Math.random()*Math.PI*2});
+        s.add(new THREE.Line(
+          new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x1,y,z1),new THREE.Vector3(x2,y,z2)]),
+          new THREE.LineBasicMaterial({color:0x334466,transparent:true,opacity:.4})
+        ));
+      }
+    }
+    const tMat=new THREE.MeshStandardMaterial({color:0x6c6cff,roughness:.2,metalness:.8,transparent:true,opacity:.65});
+    const tMat2=new THREE.MeshStandardMaterial({color:0xff6caa,roughness:.2,metalness:.8,transparent:true,opacity:.65});
+    s.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(h1),200,.04,8),tMat));
+    s.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(h2),200,.04,8),tMat2));
+
+    scenes.about={s,c,update:(t)=>{
+      s.rotation.y=t*.003;
+      spheres.forEach(sp=>{
+        const ii=.3+Math.sin(t*.01+sp.phase)*.4;
+        sp.m1.material.emissiveIntensity=ii;
+        sp.m2.material.emissiveIntensity=ii;
+      });
+    }};
+  })();
+
+  // ── SCENE: PARTICLE FIELD ───────────────────────────
+  (function(){
+    const s=new THREE.Scene();
+    const c=new THREE.PerspectiveCamera(50,520/innerHeight,.1,100);
+    c.position.z=7;
+
+    const N=1200;
+    const pos=new Float32Array(N*3);
+    const col=new Float32Array(N*3);
+    const vels=[];
+    for(let i=0;i<N;i++){
+      const r=.5+Math.random()*2.5;
+      const th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);
+      pos[i*3]=r*Math.sin(ph)*Math.cos(th);
+      pos[i*3+1]=r*Math.sin(ph)*Math.sin(th);
+      pos[i*3+2]=r*Math.cos(ph)*.6;
+      vels.push({phase:Math.random()*Math.PI*2,amp:.08+Math.random()*.12,
+        ox:pos[i*3],oy:pos[i*3+1],oz:pos[i*3+2]});
+      const t=Math.random();
+      col[i*3]=.42+t*.58;col[i*3+1]=t*.1;col[i*3+2]=1-t*.33;
+    }
+    const geo=new THREE.BufferGeometry();
+    geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+    const pts=new THREE.Points(geo,new THREE.PointsMaterial({size:.035,vertexColors:true,transparent:true,opacity:.9}));
+    s.add(pts);
+
+    scenes.contact={s,c,update:(t)=>{
+      pts.rotation.y=t*.0015;pts.rotation.x=t*.0008;
+      const p=geo.attributes.position.array;
+      vels.forEach((v,i)=>{
+        p[i*3]=v.ox+Math.sin(t*.006+v.phase)*v.amp;
+        p[i*3+1]=v.oy+Math.cos(t*.005+v.phase+1)*v.amp;
+        p[i*3+2]=v.oz+Math.sin(t*.004+v.phase+2)*v.amp*.5;
+      });
+      geo.attributes.position.needsUpdate=true;
+    }};
+  })();
+
+  // Page → scene mapping
+  const pageSceneMap={p2:'work',p3:'skills',p4:'about',p5:'contact'};
+  let active=null;
+
+  function showScene(name){
+    if(active===name)return;
+    active=name;
+    gsap.to(secCv,{opacity:name?1:0,duration:.6});
+    currentScene=scenes[name]?.s||null;
+    currentCamera=scenes[name]?.c||null;
+  }
+  showScene(null);
+
+  // IntersectionObserver per page
+  Object.entries(pageSceneMap).forEach(([pid,sname])=>{
+    const el=document.getElementById(pid);
+    if(!el)return;
+    new IntersectionObserver(([e])=>{
+      if(e.isIntersecting)showScene(sname);
+    },{threshold:.4}).observe(el);
+  });
+  // Hide on hero/stats
+  new IntersectionObserver(([e])=>{if(e.isIntersecting)showScene(null)},{threshold:.4})
+    .observe(document.getElementById('p1'));
+
+  // Render loop
+  (function loop(t){
+    requestAnimationFrame(loop);
+    if(currentScene&&currentCamera){
+      scenes[active]?.update(t);
+      SR.render(currentScene,currentCamera);
+    }
+  })(0);
+
+  window.addEventListener('resize',()=>{
+    SR.setSize(520,innerHeight);
+  });
+})();
+
+// ── OVERLAY 3D BACKGROUND ────────────────────────────
+function initOverlay3D(canvasEl,caseId){
+  if(!canvasEl)return;
+  const W=Math.round(innerWidth*.45),H=innerHeight,dpr=Math.min(devicePixelRatio,2);
+  canvasEl.width=W*dpr;canvasEl.height=H*dpr;
+
+  const or=new THREE.WebGLRenderer({canvas:canvasEl,antialias:true,alpha:true});
+  or.setPixelRatio(dpr);
+  or.setSize(W,H);
+
+  const os=new THREE.Scene();
+  const oc=new THREE.PerspectiveCamera(50,1,.1,100);
+  oc.position.z=6;
+  os.add(new THREE.AmbientLight(0xffffff,.1));
+
+  // Different 3D per case
+  const cols={
+    '001':[0x2dffb4,0x00aaff],
+    '002':[0x6c6cff,0xaa44ff],
+    '003':[0xffb347,0xff6644],
+    '004':[0xff6caa,0x6c6cff],
+  }[caseId]||[0x6c6cff,0xff6caa];
+
+  const l1=new THREE.PointLight(cols[0],4,15);l1.position.set(2,2,4);os.add(l1);
+  const l2=new THREE.PointLight(cols[1],3,12);l2.position.set(-2,-1,3);os.add(l2);
+
+  const group=new THREE.Group();os.add(group);
+
+  // Floating geometry unique per case
+  if(caseId==='001'){
+    // Candlesticks
+    for(let i=0;i<12;i++){
+      const h=.3+Math.random()*1.5;
+      const g=Math.random()>.4;
+      const m=new THREE.MeshStandardMaterial({color:g?0x2dffb4:0xff3355,roughness:.1,metalness:.9,emissive:g?0x2dffb4:0xff3355,emissiveIntensity:.3,transparent:true,opacity:.8});
+      const b=new THREE.Mesh(new THREE.BoxGeometry(.25,h,.25),m);
+      b.position.set((Math.random()-.5)*4,(Math.random()-.5)*3,(Math.random()-.5)*2);
+      group.add(b);
+    }
+  } else if(caseId==='002'){
+    // Spheres network
+    for(let i=0;i<20;i++){
+      const m=new THREE.Mesh(
+        new THREE.SphereGeometry(.08+Math.random()*.1,16,16),
+        new THREE.MeshStandardMaterial({color:0x6c6cff,emissive:0x6c6cff,emissiveIntensity:.5,roughness:0,metalness:1})
+      );
+      m.position.set((Math.random()-.5)*5,(Math.random()-.5)*4,(Math.random()-.5)*2);
+      group.add(m);
+    }
+  } else if(caseId==='003'){
+    // Torus + rings
+    group.add(new THREE.Mesh(new THREE.TorusGeometry(1.5,.06,16,60),new THREE.MeshStandardMaterial({color:0xffb347,roughness:.1,metalness:.9,emissive:0xffb347,emissiveIntensity:.3})));
+    group.add(new THREE.Mesh(new THREE.TorusGeometry(2.2,.04,16,80),new THREE.MeshStandardMaterial({color:0xff6644,roughness:.1,metalness:.9,transparent:true,opacity:.5})));
+    group.add(new THREE.Mesh(new THREE.IcosahedronGeometry(.8,1),new THREE.MeshStandardMaterial({color:0xffb347,roughness:.2,metalness:.8,wireframe:true,transparent:true,opacity:.3})));
+  } else {
+    // AI brain — icosahedron
+    group.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.5,2),new THREE.MeshStandardMaterial({color:0xff6caa,roughness:.05,metalness:.95,emissive:0xff6caa,emissiveIntensity:.2,wireframe:false,transparent:true,opacity:.7})));
+    group.add(new THREE.Mesh(new THREE.IcosahedronGeometry(2,.8),new THREE.MeshStandardMaterial({color:0x6c6cff,wireframe:true,transparent:true,opacity:.15})));
+  }
+
+  // Particles
+  const pc=500,pp=new Float32Array(pc*3);
+  for(let i=0;i<pc*3;i++)pp[i]=(Math.random()-.5)*8;
+  const pGeo=new THREE.BufferGeometry();pGeo.setAttribute('position',new THREE.BufferAttribute(pp,3));
+  os.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:cols[0],size:.025,transparent:true,opacity:.5})));
+
+  let ot=0,alive=true;
+  (function loop(){
+    if(!alive)return;
+    requestAnimationFrame(loop);
+    ot+=.008;
+    group.rotation.y=ot*.4;group.rotation.x=ot*.15;
+    or.render(os,oc);
+  })();
+
+  return ()=>{alive=false;or.dispose()};
+}
+
+// ── MAGNETIC BUTTONS ─────────────────────────────────
+document.querySelectorAll('.magnetic').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect();
+    const x=(e.clientX-r.left-r.width/2)*.25;
+    const y=(e.clientY-r.top-r.height/2)*.25;
+    gsap.to(el,{x,y,duration:.4,ease:'power2.out'});
+  });
+  el.addEventListener('mouseleave',()=>{
+    gsap.to(el,{x:0,y:0,duration:.6,ease:'elastic.out(1,.4)'});
+  });
+});
+
+// ── TEXT SCRAMBLE ─────────────────────────────────────
+const CHARS='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&';
+function scramble(el,finalText,duration=1200){
+  let frame=0;const totalFrames=Math.floor(duration/30);
+  const interval=setInterval(()=>{
+    el.textContent=finalText.split('').map((ch,i)=>{
+      if(i<Math.floor(frame/totalFrames*finalText.length))return ch;
+      return ch===' '?' ':CHARS[Math.floor(Math.random()*CHARS.length)];
+    }).join('');
+    frame++;
+    if(frame>=totalFrames){el.textContent=finalText;clearInterval(interval)}
+  },30);
+}
+// Scramble hero title words on load
+const heroWords=document.querySelectorAll('.hero-h1 .w');
+heroWords.forEach((w,i)=>{
+  const orig=w.textContent;
+  setTimeout(()=>scramble(w,orig,800),700+i*150);
+});
+
+// Scramble on nav link hover
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  const orig=a.textContent;
+  a.addEventListener('mouseenter',()=>scramble(a,orig,400));
+});
+
+// ── CASE OVERLAY SYSTEM ──────────────────────────────
+let _disposeOv3D=null;
+const CASES={
+  '001':{
+    title:'Алготрейдинг XAUUSD',
+    sub:'Собственный капитал · Алгоритмическая система · 3+ года в продакшне',
+    result:'+520%',
+    resultLabel:'рост капитала за 3 года ($5k → $31k)',
+    color:'#2dffb4',
+    tags:['Python','MetaTrader 4','MQL4','XAUUSD','Risk Management','Automation'],
+    sections:[
+      {label:'Задача',text:'Построить автономную торговую систему для XAUUSD — актив с высокой волатильностью и ликвидностью. Требование: стабильные результаты без вмешательства человека, жёсткий контроль риска, работа 24/7.'},
+      {label:'Архитектура',text:'Система строится на трёх уровнях: сигнальный движок (80+ паттернов теханализа + новостной фон), риск-менеджер (динамический стоп-лосс, ограничение просадки -3%/день, -12%/мес), исполнительный модуль (MetaTrader 4 + Python-обёртка с логированием каждой сделки в Telegram и Google Sheets).'},
+      {label:'Что под капотом',text:'No Stress Strategy — авторская методология: вход только по подтверждённому сигналу трёх таймфреймов, соотношение Risk:Reward минимум 1:2, максимум 3 открытых позиции одновременно. После 3 убыточных сделок подряд — обязательная пауза и анализ.'},
+      {label:'Результат',text:'$5 000 → $31 000 за 3 года (+520%). Средняя доходность 8–10%/мес. Максимальная просадка за весь период — 11.4%. Система работает в продакшне прямо сейчас. Привлечён внешний капитал $10 000.'},
+    ]
+  },
+  '002':{
+    title:'AI-автоматизация HR-процессов',
+    sub:'Рекрутинговое агентство · Снижение операционных затрат · 2024',
+    result:'×20',
+    resultLabel:'ускорение найма (40ч → 2ч/нед)',
+    color:'#6c6cff',
+    tags:['Claude API','Python','Playwright','Telegram Bot','Google Sheets','hh.ru API'],
+    sections:[
+      {label:'Проблема',text:'Команда из 3 рекрутеров тратила 40+ часов в неделю на ручной скрининг резюме с hh.ru, первичные интервью по шаблонным вопросам и ведение таблиц. Масштаб ограничен человеческим ресурсом — при росте числа вакансий нужен был дополнительный найм.'},
+      {label:'Решение',text:'Два автономных инструмента: AI-скринер (парсит hh.ru, прогоняет резюме через Claude API по критериям компании, выдаёт топ-60 из 1000 с обоснованием оценки в Google Sheets) и Telegram-бот первичного интервью (проводит структурированное собеседование, анализирует ответы, отсекает несоответствующих кандидатов до живого разговора с рекрутером).'},
+      {label:'Внедрение',text:'Запуск за 2 недели. Интеграция без изменения существующих процессов: рекрутеры получают готовый отчёт в Google Sheets каждое утро. Telegram-бот отвечает кандидатам в течение 5 минут после отклика — в любое время суток.'},
+      {label:'Результат',text:'Время на скрининг: 40 ч/нед → 2 ч/нед (−95%). Охват кандидатов вырос в 15 раз без найма. Конверсия резюме в первое интервью: +30%. Срок закрытия вакансии сократился с 21 до 12 дней.'},
+    ]
+  },
+  '003':{
+    title:'COO — Capital Skills',
+    sub:'EdTech · Инвестиционные курсы · 2021–2024',
+    result:'18M+ ₽',
+    resultLabel:'выручка с потока в пике',
+    color:'#ffb347',
+    tags:['P&L','OKR/KPI','Operations','amoCRM','GetCourse','Team Building','Unit Economics'],
+    sections:[
+      {label:'Контекст',text:'Capital Skills — онлайн-школа по инвестициям и торговле. Пришёл на позицию COO: хаотичные процессы, команда 8 человек, churn студентов в первый месяц ~35%, нет системы управления — собственник лично погружён во всё. Задача: выстроить операционную систему, масштабировать выручку.'},
+      {label:'Операционная трансформация',text:'Перестроил всю операционку с нуля: внедрил OKR по всей команде, прописал SOP для каждой роли, настроил amoCRM с автоматизацией воронки, запустил еженедельные бизнес-ревью с P&L по каждому потоку. Команда выросла с 8 до 15 человек — найм, онбординг, KPI-система.'},
+      {label:'Retention и монетизация',text:'Разработал систему удержания студентов: триггерные касания на 3-й, 7-й и 14-й день, персональные чек-ины куратора, апселл-цепочка после каждого модуля. Переработал продуктовую линейку — добавил промежуточные продукты с LTV-логикой. Пересчитал unit-экономику и перераспределил CAC по каналам.'},
+      {label:'Результат',text:'Выручка с потока: от 800к ₽ до 18M+ ₽ в пике. Суммарный оборот под управлением — 40M+ ₽. Churn первого месяца: 35% → 14%. CAC снизился с 8 000 до 2 800 ₽. Собственник высвободился из операционки полностью.'},
+    ]
+  },
+  '004':{
+    title:'Ахиллес — Personal AI OS',
+    sub:'Собственный продукт · Flask + Claude API · In Production',
+    result:'24/7',
+    resultLabel:'автономная работа на VPS',
+    color:'#ff6caa',
+    tags:['Claude API','Flask','Python','Telegram Bot','VPS','Nginx','Playwright','ElevenLabs'],
+    sections:[
+      {label:'Концепция',text:'Персональный проактивный AI-ассистент который живёт на VPS и сам инициирует действия — не ждёт запроса, а отслеживает контекст жизни и действует превентивно. Аналог живого бизнес-ассистента, который стоит 50–100к/мес, за цену VPS-сервера.'},
+      {label:'Что умеет сейчас',text:'Голосовое управление через браузер и Telegram, автоматический заказ такси и еды через Playwright, мониторинг вакансий и ответов рекрутеров на hh.ru, алёрты по торговым сигналам XAUUSD, утренний брифинг с задачами из Obsidian, календарный агент с каскадным переносом встреч.'},
+      {label:'Архитектура',text:'Flask ~5 000 строк + Claude Sonnet 4.6 в agentic loop с 35+ инструментами. Nginx на VPS, HTTPS, Telegram Bot как мобильный интерфейс. Launchd-агенты на Mac для фоновых задач. Action Ledger — лог всех действий с возможностью отката.'},
+      {label:'V2 — Personal OS',text:'Переосмысление концепции: система которая знает цели, привычки, финансы, расписание — и проактивно помогает их достигать без запроса. Три уровня автономии: мониторит → напоминает → действует. Разрабатывается как SaaS-продукт для продажи.'},
+    ]
+  },
+};
+
+const overlay=document.createElement('div');
+overlay.id='case-overlay';
+overlay.style.cssText=`
+  position:fixed;inset:0;z-index:500;
+  background:#030305;
+  clip-path:inset(100% 0 0 0);
+  overflow-y:auto;
+  padding:0;
+`;
+overlay.innerHTML=`
+<canvas id="ov-canvas"></canvas>
+<div id="ov-content" style="max-width:900px;margin:0 auto;padding:120px 64px 100px;opacity:0;position:relative;z-index:2">
+  <button id="ov-close" style="
+    position:fixed;top:32px;right:40px;
+    background:none;border:1px solid rgba(255,255,255,.15);
+    color:rgba(255,255,255,.6);font-size:12px;letter-spacing:2px;
+    text-transform:uppercase;padding:10px 20px;border-radius:100px;
+    cursor:none;transition:all .3s;font-family:inherit;
+  ">Закрыть ✕</button>
+  <div id="ov-tag" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:20px"></div>
+  <h2 id="ov-title" style="font-size:clamp(48px,7vw,88px);font-weight:700;letter-spacing:-3px;line-height:.95;margin-bottom:16px"></h2>
+  <div id="ov-sub" style="font-size:14px;color:rgba(255,255,255,.35);margin-bottom:56px"></div>
+  <div id="ov-result-wrap" style="display:flex;align-items:baseline;gap:16px;margin-bottom:72px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.07)">
+    <div id="ov-result" style="font-size:clamp(72px,10vw,120px);font-weight:700;letter-spacing:-4px;line-height:1"></div>
+    <div id="ov-rlabel" style="font-size:16px;color:rgba(255,255,255,.4)"></div>
+  </div>
+  <div id="ov-sections" style="display:grid;grid-template-columns:1fr 1fr;gap:40px 60px"></div>
+  <div id="ov-tags" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:56px;padding-top:40px;border-top:1px solid rgba(255,255,255,.07)"></div>
+</div>
+`;
+document.body.appendChild(overlay);
+
+const ovContent=document.getElementById('ov-content');
+const ovClose=document.getElementById('ov-close');
+
+ovClose.addEventListener('mouseenter',()=>document.body.classList.add('cursor-link'));
+ovClose.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-link'));
+ovClose.addEventListener('click',closeOverlay);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeOverlay()});
+
+function openCase(id){
+  if(_disposeOv3D){_disposeOv3D();_disposeOv3D=null;}
+  const c=CASES[id];if(!c)return;
+  // Fill content
+  document.getElementById('ov-tag').textContent=id+' — Кейс';
+  document.getElementById('ov-title').textContent=c.title;
+  document.getElementById('ov-sub').textContent=c.sub;
+  document.getElementById('ov-result').style.color=c.color;
+  document.getElementById('ov-result').textContent=c.result;
+  document.getElementById('ov-rlabel').textContent=c.resultLabel;
+  document.getElementById('ov-sections').innerHTML=c.sections.map(s=>`
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:12px">${s.label}</div>
+      <p style="font-size:15px;color:rgba(255,255,255,.6);line-height:1.8">${s.text}</p>
+    </div>
+  `).join('');
+  document.getElementById('ov-tags').innerHTML=c.tags.map(t=>`<span style="font-size:12px;padding:6px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:6px;color:rgba(255,255,255,.4)">${t}</span>`).join('');
+
+  // Animate open
+  document.body.style.overflow='hidden';
+  overlay.style.display='block';
+  gsap.set('#ov-canvas',{opacity:.7});
+  requestAnimationFrame(()=>{_disposeOv3D=initOverlay3D(document.getElementById('ov-canvas'),id)||null;});
+  ovContent.style.opacity='0';
+  gsap.to(overlay,{
+    clipPath:'inset(0% 0 0 0)',duration:.7,ease:'power4.inOut',
+    onComplete:()=>gsap.to(ovContent,{opacity:1,y:0,duration:.5,ease:'power3.out'})
+  });
+  gsap.set(ovContent,{y:30});
+}
+
+function closeOverlay(){
+  if(_disposeOv3D){_disposeOv3D();_disposeOv3D=null;}
+  gsap.to(ovContent,{opacity:0,duration:.3,ease:'power2.in'});
+  gsap.to(overlay,{
+    clipPath:'inset(0% 0 100% 0)',duration:.6,ease:'power4.inOut',delay:.2,
+    onComplete:()=>{overlay.style.display='none';document.body.style.overflow='';gsap.set('#ov-canvas',{opacity:0});}
+  });
+}
+
+document.querySelectorAll('.ci').forEach(el=>{
+  el.style.cursor='none';
+  el.addEventListener('click',()=>openCase(el.querySelector('.ci-n').textContent.trim()));
+});
+
+// ── CONTACT FORM SUBMIT ───────────────────────────────
+function submitForm(e){
+  e.preventDefault();
+  const name=document.getElementById('f-name').value.trim();
+  const company=document.getElementById('f-company').value.trim();
+  const email=document.getElementById('f-email').value.trim();
+  const msg=document.getElementById('f-msg').value.trim();
+  const subject=encodeURIComponent('Заявка с сайта'+(company?' — '+company:''));
+  const body=encodeURIComponent(
+    'Имя: '+name+'\n'+
+    (company?'Компания: '+company+'\n':'')+
+    'Email: '+email+'\n\n'+
+    'Запрос:\n'+msg
+  );
+  const form=document.getElementById('contact-form');
+  // Show success before opening mailto
+  form.style.display='none';
+  const succ=document.createElement('div');
+  succ.className='form-success';
+  succ.style.display='block';
+  succ.innerHTML='Спасибо, '+name+'! Ваша заявка подготовлена.<br><span style="color:rgba(255,255,255,.4);font-size:13px">Откроется почтовый клиент — просто отправьте письмо.</span>';
+  form.parentNode.insertBefore(succ,form.nextSibling);
+  gsap.from(succ,{opacity:0,y:16,duration:.5,ease:'power3.out'});
+  setTimeout(()=>{
+    window.location.href='mailto:aleksfan578@gmail.com?subject='+subject+'&body='+body;
+  },400);
+}
+</script>
+</body>
+</html>
