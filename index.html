@@ -115,7 +115,15 @@ nav{
   padding:120px 64px;
 }
 
-/* ── PAGE 1: HERO ────────────────────────────────────── */
+/* ── HERO 3D PARTICLES CANVAS ────────────────────────── */
+#hero-particles{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  pointer-events:none;z-index:2;
+  opacity:0;transition:opacity 1.2s ease;
+}
+#hero-particles.ready{opacity:1}
+#p1>.hero-tag,#p1>.hero-h1,#p1>.hero-foot{position:relative;z-index:4}
 .hero-tag{
   display:inline-flex;align-items:center;gap:10px;
   font-size:11px;letter-spacing:2.5px;text-transform:uppercase;
@@ -532,6 +540,7 @@ footer{
 
 <!-- PAGE 1: HERO -->
 <section class="page" id="p1">
+  <canvas id="hero-particles"></canvas>
   <div class="hero-tag">
     <div class="hero-tag-line"></div>
     AI Manager · COO · Москва · 2026
@@ -1489,6 +1498,138 @@ document.querySelectorAll('.ci').forEach(el=>{
   el.style.cursor='none';
   el.addEventListener('click',()=>openCase(el.querySelector('.ci-n').textContent.trim()));
 });
+
+// ── HERO 3D PARTICLES ─────────────────────────────────
+(function(){
+  const heroCv=document.getElementById('hero-particles');
+  if(!heroCv)return;
+
+  const isMobile=innerWidth<768;
+  const COUNT=isMobile?200:500;
+  const dpr=Math.min(devicePixelRatio,2);
+
+  function resize(){
+    const section=document.getElementById('p1');
+    const w=section.offsetWidth,h=section.offsetHeight;
+    heroCv.width=w*dpr;heroCv.height=h*dpr;
+    heroCv.style.width=w+'px';heroCv.style.height=h+'px';
+    if(hRenderer){
+      hRenderer.setSize(w,h);
+      hCam.aspect=w/h;hCam.updateProjectionMatrix();
+    }
+  }
+
+  // Three.js scene
+  const hRenderer=new THREE.WebGLRenderer({canvas:heroCv,antialias:true,alpha:true});
+  hRenderer.setPixelRatio(dpr);
+  hRenderer.setClearColor(0x000000,0);
+
+  const hScene=new THREE.Scene();
+  const hCam=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,.1,200);
+  hCam.position.z=7;
+
+  // Particle cloud
+  const positions=new Float32Array(COUNT*3);
+  const colors=new Float32Array(COUNT*3);
+  const phases=new Float32Array(COUNT);
+  const amps=new Float32Array(COUNT);
+
+  for(let i=0;i<COUNT;i++){
+    // Sphere-shell distribution
+    const r=1.8+Math.random()*3.2;
+    const theta=Math.random()*Math.PI*2;
+    const phi=Math.acos(2*Math.random()-1);
+    positions[i*3  ]=r*Math.sin(phi)*Math.cos(theta);
+    positions[i*3+1]=r*Math.sin(phi)*Math.sin(theta);
+    positions[i*3+2]=r*Math.cos(phi)*.6;
+    phases[i]=Math.random()*Math.PI*2;
+    amps[i]=.04+Math.random()*.08;
+    // Colour: mix purple (#7C3AED) and white
+    const t=Math.random();
+    if(t<.65){
+      // purple family
+      const s=.5+Math.random()*.5;
+      colors[i*3  ]=.486*s;  // 0x7C = 124
+      colors[i*3+1]=.227*s;  // 0x3A = 58
+      colors[i*3+2]=.929*s;  // 0xED = 237
+    } else {
+      // white / light
+      const w=.7+Math.random()*.3;
+      colors[i*3  ]=w;colors[i*3+1]=w;colors[i*3+2]=w;
+    }
+  }
+
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(positions.slice(),3));
+  geo.setAttribute('color',new THREE.BufferAttribute(colors,3));
+
+  const mat=new THREE.PointsMaterial({
+    size:.045,vertexColors:true,
+    transparent:true,opacity:.85,
+    sizeAttenuation:true,
+    depthWrite:false,
+  });
+  const cloud=new THREE.Points(geo,mat);
+  hScene.add(cloud);
+
+  // Store original positions
+  const origPos=positions.slice();
+
+  // Mouse parallax state
+  let mouseX=0,mouseY=0,targetX=0,targetY=0;
+  if(!isMobile){
+    document.addEventListener('mousemove',e=>{
+      mouseX=(e.clientX/innerWidth-.5)*2;
+      mouseY=-(e.clientY/innerHeight-.5)*2;
+    });
+  }
+
+  // Visibility API — stop when tab hidden
+  let rafId=null;
+  function stopLoop(){if(rafId){cancelAnimationFrame(rafId);rafId=null;}}
+  function startLoop(){if(!rafId)rafId=requestAnimationFrame(loop);}
+  document.addEventListener('visibilitychange',()=>{
+    document.hidden?stopLoop():startLoop();
+  });
+
+  // Render loop
+  function loop(ts){
+    rafId=requestAnimationFrame(loop);
+    const t=ts*.001;
+
+    // Slow rotation of whole cloud
+    cloud.rotation.y=t*.06;
+    cloud.rotation.x=t*.022;
+
+    // Mouse parallax — camera tilt
+    if(!isMobile){
+      targetX+=(mouseX*.4-targetX)*.05;
+      targetY+=(mouseY*.3-targetY)*.05;
+      hCam.position.x=targetX;
+      hCam.position.y=targetY;
+      hCam.lookAt(0,0,0);
+    }
+
+    // Subtle breathing per-particle
+    const pos=geo.attributes.position.array;
+    for(let i=0;i<COUNT;i++){
+      const s=1+Math.sin(t*1.2+phases[i])*amps[i]*.5;
+      pos[i*3  ]=origPos[i*3  ]*s;
+      pos[i*3+1]=origPos[i*3+1]*s;
+      pos[i*3+2]=origPos[i*3+2]*s;
+    }
+    geo.attributes.position.needsUpdate=true;
+
+    hRenderer.render(hScene,hCam);
+  }
+
+  // Init size then start
+  resize();
+  window.addEventListener('resize',resize,{passive:true});
+
+  // Fade in after loader
+  setTimeout(()=>{heroCv.classList.add('ready');startLoop();},1300);
+})();
 
 // ── CONTACT FORM SUBMIT ───────────────────────────────
 function submitForm(e){
