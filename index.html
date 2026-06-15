@@ -234,34 +234,96 @@ nav{
 }
 
 /* ── PAGE 3: SKILLS ──────────────────────────────────── */
-.skills-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
-.skills-left{}
-.stack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:0}
-.stack-item{
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:12px;padding:20px 16px;
-  display:flex;flex-direction:column;align-items:center;gap:10px;
+/* ── TECH STACK 3D KEYS (preserve-3d, real depth) ────── */
+.key-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:20px;margin-top:40px;width:100%;
+  perspective:1200px;
+}
+.key-wrap{
+  perspective:600px;
   opacity:0;clip-path:inset(0 0 100% 0);
-  transition:background .3s,border-color .3s,transform .3s;
+}
+.key{
+  position:relative;
+  padding:0;
+  transform-style:preserve-3d;
+  transform:rotateX(22deg) rotateY(-4deg);
+  transition:transform .12s ease;
   cursor:none;
+  user-select:none;
 }
-.stack-item:hover{background:rgba(108,108,255,.08);border-color:rgba(108,108,255,.25);transform:translateY(-4px)}
-.stack-icon{font-size:28px}
-.stack-name{font-size:11px;font-weight:600;letter-spacing:.5px;color:rgba(255,255,255,.5);text-align:center}
-.skills-right{display:flex;flex-direction:column;gap:16px}
-.skill-cat{
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:14px;padding:28px;
-  opacity:0;clip-path:inset(0 100% 0 0);
-  transition:border-color .3s;
+.key:hover{transform:rotateX(30deg) rotateY(-4deg) translateY(6px)}
+.key:active{transform:rotateX(32deg) rotateY(-4deg) translateY(10px)}
+
+/* Верхняя грань */
+.key-top{
+  border-radius:12px 12px 10px 10px;
+  padding:28px 14px 22px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  position:relative;z-index:2;
+  transform:translateZ(18px);
 }
-.skill-cat:hover{border-color:rgba(108,108,255,.2)}
-.skill-cat-title{font-size:15px;font-weight:700;margin-bottom:8px;letter-spacing:-.2px}
-.skill-cat-desc{font-size:13px;color:rgba(255,255,255,.38);line-height:1.6;margin-bottom:14px}
-.tags{display:flex;flex-wrap:wrap;gap:6px}
-.tag{font-size:11px;padding:4px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px;color:rgba(255,255,255,.38)}
+/* Передняя грань (нижняя сторона клавиши) */
+.key::before{
+  content:'';
+  position:absolute;
+  bottom:0;left:4px;right:4px;
+  height:22px;
+  border-radius:0 0 8px 8px;
+  transform:rotateX(-90deg);
+  transform-origin:bottom center;
+  z-index:1;
+}
+/* Боковая грань */
+.key::after{
+  content:'';
+  position:absolute;
+  top:4px;bottom:0;left:0;
+  width:8px;
+  border-radius:4px 0 0 4px;
+  transform:rotateY(90deg);
+  transform-origin:left center;
+  z-index:1;
+  opacity:.6;
+}
+
+/* Цвета */
+.key-purple .key-top{
+  background:linear-gradient(160deg,#a395ff 0%,#7b6ef6 40%,#5b4ee6 100%);
+  color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.2);
+}
+.key-purple::before{background:#3a2fa8}
+.key-purple::after{background:#4d3fd4}
+
+.key-yellow .key-top{
+  background:linear-gradient(160deg,#ffe07a 0%,#f5c030 40%,#e0a500 100%);
+  color:#1a0f00;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(0,0,0,.1);
+}
+.key-yellow::before{background:#8c6500}
+.key-yellow::after{background:#b07e00}
+
+.key-silver .key-top{
+  background:linear-gradient(160deg,#f0f0ff 0%,#d8d8ec 40%,#b8b8d0 100%);
+  color:#1a1a3a;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -1px 0 rgba(0,0,0,.1);
+}
+.key-silver::before{background:#5a5a8a}
+.key-silver::after{background:#7a7aaa}
+
+.key-dark .key-top{
+  background:linear-gradient(160deg,#383858 0%,#22223a 40%,#12122a 100%);
+  color:rgba(255,255,255,.8);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),inset 0 -1px 0 rgba(0,0,0,.4);
+  border:1px solid rgba(255,255,255,.08);
+}
+.key-dark::before{background:#050510}
+.key-dark::after{background:#0a0a1e}
+
+.key-icon{font-size:30px;display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+.key-label{font-size:11px;font-weight:700;letter-spacing:.5px;text-align:center;line-height:1.3}
 
 /* ── PAGE 4: ABOUT ───────────────────────────────────── */
 .about-wrap{display:grid;grid-template-columns:1fr 1fr;gap:120px;align-items:center}
@@ -487,8 +549,8 @@ footer{
   .st{padding:36px 24px}
   .ci{grid-template-columns:40px 1fr;gap:20px}
   .ci-right{display:none}
-  .skills-wrap{grid-template-columns:1fr}
-  .stack-grid{grid-template-columns:repeat(3,1fr)}
+  .key-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .key{transform:rotateX(18deg) rotateY(-3deg)}
   .about-wrap{grid-template-columns:1fr;gap:48px}
   footer{flex-direction:column;gap:12px;padding:24px}
   .progress{display:none}
@@ -602,10 +664,10 @@ footer{
     <div class="ci">
       <div class="ci-n">001</div>
       <div class="ci-body">
-        <div class="ci-title">Алготрейдинг XAUUSD</div>
-        <div class="ci-desc">Автономная торговая система: риск-менеджмент, 80+ паттернов, просадка &lt;12%. Привлечён внешний капитал $10k.</div>
+        <div class="ci-title">COO — Capital Skills: снижение CAC −65%</div>
+        <div class="ci-desc">EdTech. CAC 8 000 → 2 800 ₽ (−65%), Churn 35% → 14% (−60%), оборот 40M+ ₽. ROI операционных изменений — 3617%. Команда 5 → 15 чел за 1,5 года.</div>
       </div>
-      <div class="ci-right"><div class="ci-res g">+520%</div><div class="ci-tag">AI · TRADING · 3+ ГОДА</div></div>
+      <div class="ci-right"><div class="ci-res" style="color:#ffb347">−65%</div><div class="ci-tag">COO · EDTECH · CAC · CHURN</div></div>
     </div>
     <div class="ci">
       <div class="ci-n">002</div>
@@ -618,13 +680,21 @@ footer{
     <div class="ci">
       <div class="ci-n">003</div>
       <div class="ci-body">
-        <div class="ci-title">COO — Capital Skills: снижение CAC −65%</div>
-        <div class="ci-desc">EdTech. CAC 8 000 → 2 800 ₽ (−65%), Churn 35% → 14% (−60%), оборот 40M+ ₽. ROI операционных изменений — 3617%. Команда 5 → 15 чел за 1,5 года.</div>
+        <div class="ci-title">Алготрейдинг XAUUSD</div>
+        <div class="ci-desc">Автономная торговая система: риск-менеджмент, 80+ паттернов, просадка &lt;12%. Привлечён внешний капитал $10k.</div>
       </div>
-      <div class="ci-right"><div class="ci-res" style="color:#ffb347">−65%</div><div class="ci-tag">COO · EDTECH · CAC · CHURN</div></div>
+      <div class="ci-right"><div class="ci-res g">+520%</div><div class="ci-tag">AI · TRADING · 3+ ГОДА</div></div>
     </div>
     <div class="ci">
       <div class="ci-n">004</div>
+      <div class="ci-body">
+        <div class="ci-title">Цифровизация контроля полевого персонала</div>
+        <div class="ci-desc">Telegram-бот для 960 промоутеров в 24 филиалах. Авто-верификация фотоотчётов, геолокация, расчёт зарплат. Проверка: часы → минуты. Мухлёж исключён.</div>
+      </div>
+      <div class="ci-right"><div class="ci-res" style="color:#4ecdc4" data-count="960">960+</div><div class="ci-tag">TG BOT · GEO · FIELD OPS</div></div>
+    </div>
+    <div class="ci">
+      <div class="ci-n">005</div>
       <div class="ci-body">
         <div class="ci-title">Ахиллес — Personal AI OS</div>
         <div class="ci-desc">Проактивный ассистент на VPS: голос, Playwright-автоматизация, мониторинг рынка и карьеры. Аналог бизнес-ассистента за цену сервера.</div>
@@ -637,39 +707,24 @@ footer{
 <!-- PAGE 3: SKILLS + STACK -->
 <section class="page" id="p3">
   <div class="pg-tag">02 — Навыки и стек</div>
-  <h2 class="pg-title">Инструменты<br><span class="dim">и экспертиза</span></h2>
-  <div class="skills-wrap">
-    <div class="skills-left">
-      <div style="font-size:12px;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px">Технологии</div>
-      <div class="stack-grid">
-        <div class="stack-item"><div class="stack-icon">🤖</div><div class="stack-name">Claude API</div></div>
-        <div class="stack-item"><div class="stack-icon">⚡</div><div class="stack-name">GPT-4</div></div>
-        <div class="stack-item"><div class="stack-icon">🔗</div><div class="stack-name">n8n</div></div>
-        <div class="stack-item"><div class="stack-icon">⚙️</div><div class="stack-name">Make</div></div>
-        <div class="stack-item"><div class="stack-icon">🐍</div><div class="stack-name">Python</div></div>
-        <div class="stack-item"><div class="stack-icon">🎭</div><div class="stack-name">Playwright</div></div>
-        <div class="stack-item"><div class="stack-icon">📊</div><div class="stack-name">GSheets</div></div>
-        <div class="stack-item"><div class="stack-icon">✉️</div><div class="stack-name">Telegram API</div></div>
-        <div class="stack-item"><div class="stack-icon">🗄️</div><div class="stack-name">Flask</div></div>
-      </div>
-    </div>
-    <div class="skills-right">
-      <div class="skill-cat">
-        <div class="skill-cat-title">🤖 AI & Автоматизация</div>
-        <div class="skill-cat-desc">Строю рабочие системы с измеримым ROI — не пресеты, а кастомные решения.</div>
-        <div class="tags"><span class="tag">Claude API</span><span class="tag">GPT-4</span><span class="tag">n8n</span><span class="tag">Make</span><span class="tag">Python</span><span class="tag">Playwright</span></div>
-      </div>
-      <div class="skill-cat">
-        <div class="skill-cat-title">⚙️ Операционное управление</div>
-        <div class="skill-cat-desc">3+ лет COO: процессы с нуля, команды до 15 чел, P&L, OKR.</div>
-        <div class="tags"><span class="tag">OKR/KPI</span><span class="tag">P&L</span><span class="tag">Битрикс24</span><span class="tag">amoCRM</span><span class="tag">Unit-экономика</span></div>
-      </div>
-      <div class="skill-cat">
-        <div class="skill-cat-title">📊 Аналитика и продукт</div>
-        <div class="skill-cat-desc">Решения по данным: A/B тесты, воронки, когорты, юнит-экономика.</div>
-        <div class="tags"><span class="tag">GA</span><span class="tag">Метрика</span><span class="tag">SQL</span><span class="tag">A/B тесты</span><span class="tag">ICE score</span><span class="tag">GetCourse</span></div>
-      </div>
-    </div>
+  <h2 class="pg-title">Мой технологический<br><span class="dim">стек</span></h2>
+  <div class="key-grid">
+    <div class="key-wrap"><div class="key key-purple"><div class="key-top"><span class="key-icon">🤖</span><span class="key-label">Claude API</span></div></div></div>
+    <div class="key-wrap"><div class="key key-purple"><div class="key-top"><span class="key-icon">⚡</span><span class="key-label">GPT-4</span></div></div></div>
+    <div class="key-wrap"><div class="key key-purple"><div class="key-top"><span class="key-icon">🚀</span><span class="key-label">Groq AI</span></div></div></div>
+    <div class="key-wrap"><div class="key key-purple"><div class="key-top"><span class="key-icon">🎭</span><span class="key-label">Playwright</span></div></div></div>
+    <div class="key-wrap"><div class="key key-yellow"><div class="key-top"><span class="key-icon">🔗</span><span class="key-label">n8n</span></div></div></div>
+    <div class="key-wrap"><div class="key key-yellow"><div class="key-top"><span class="key-icon">⚙️</span><span class="key-label">Make</span></div></div></div>
+    <div class="key-wrap"><div class="key key-yellow"><div class="key-top"><span class="key-icon">📊</span><span class="key-label">Google Sheets</span></div></div></div>
+    <div class="key-wrap"><div class="key key-yellow"><div class="key-top"><span class="key-icon">📋</span><span class="key-label">Битрикс24</span></div></div></div>
+    <div class="key-wrap"><div class="key key-silver"><div class="key-top"><span class="key-icon">🐍</span><span class="key-label">Python</span></div></div></div>
+    <div class="key-wrap"><div class="key key-silver"><div class="key-top"><span class="key-icon">🗄️</span><span class="key-label">Flask</span></div></div></div>
+    <div class="key-wrap"><div class="key key-silver"><div class="key-top"><span class="key-icon">🗃️</span><span class="key-label">SQL</span></div></div></div>
+    <div class="key-wrap"><div class="key key-silver"><div class="key-top"><span class="key-icon">💼</span><span class="key-label">amoCRM</span></div></div></div>
+    <div class="key-wrap"><div class="key key-dark"><div class="key-top"><span class="key-icon">✈️</span><span class="key-label">Telegram API</span></div></div></div>
+    <div class="key-wrap"><div class="key key-dark"><div class="key-top"><span class="key-icon">🐙</span><span class="key-label">GitHub</span></div></div></div>
+    <div class="key-wrap"><div class="key key-dark"><div class="key-top"><span class="key-icon">🖥️</span><span class="key-label">Linux / VPS</span></div></div></div>
+    <div class="key-wrap"><div class="key key-dark"><div class="key-top"><span class="key-icon">🔌</span><span class="key-label">Webhook API</span></div></div></div>
   </div>
 </section>
 
@@ -689,7 +744,7 @@ footer{
         <div class="ir"><span class="il">Локация</span><span class="iv">Москва · Удалённо</span></div>
         <div class="ir"><span class="il">Роль</span><span class="iv">AI-менеджер · COO</span></div>
         <div class="ir"><span class="il">Опыт</span><span class="iv">3+ лет COO · 15+ AI</span></div>
-        <div class="ir"><span class="il">Ожидания</span><span class="iv">от 150 000 ₽/мес</span></div>
+        <div class="ir"><span class="il">Ожидания</span><span class="iv">от 300 000 ₽/мес</span></div>
         <div class="ir"><span class="il">Email</span><span class="iv">aleksfan578@gmail.com</span></div>
         <div class="ir"><span class="il">Telegram</span><span class="iv">@Sweet_SG</span></div>
       </div>
@@ -802,7 +857,7 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
 })();
 
 // Hover states
-document.querySelectorAll('.ci,.stack-item').forEach(el=>{
+document.querySelectorAll('.ci,.key-wrap').forEach(el=>{
   el.addEventListener('mouseenter',()=>{document.body.classList.add('cursor-hover');ctext.textContent='VIEW'});
   el.addEventListener('mouseleave',()=>{document.body.classList.remove('cursor-hover');ctext.textContent=''});
 });
@@ -901,11 +956,32 @@ gsap.utils.toArray('.pg-title').forEach(el=>{
 gsap.to('.ci',{opacity:1,clipPath:'inset(0% 0 0 0)',duration:.75,stagger:.12,
   scrollTrigger:{trigger:'.case-list',start:'top 80%'},ease:'power4.out'});
 
-// Stack
-gsap.to('.stack-item',{opacity:1,clipPath:'inset(0 0 0% 0)',duration:.55,stagger:.05,
-  scrollTrigger:{trigger:'.stack-grid',start:'top 80%'},ease:'power3.out'});
-gsap.to('.skill-cat',{opacity:1,clipPath:'inset(0 0% 0 0)',duration:.65,stagger:.12,
-  scrollTrigger:{trigger:'.skills-right',start:'top 80%'},ease:'power3.inOut'});
+// Count-up for 960+
+(function(){
+  const el=document.querySelector('[data-count="960"]');
+  if(!el)return;
+  ScrollTrigger.create({
+    trigger:el,start:'top 85%',once:true,
+    onEnter:()=>{
+      let v=0;const target=960;const dur=1800;const step=dur/60;
+      const t=setInterval(()=>{
+        v=Math.min(v+Math.ceil(target/(dur/step*1.2)),target);
+        el.textContent=v+(v>=target?'+':'');
+        if(v>=target)clearInterval(t);
+      },step);
+    }
+  });
+})();
+
+// Stack keys
+gsap.to('.key-wrap',{opacity:1,clipPath:'inset(0 0 0% 0)',duration:.5,stagger:.04,
+  scrollTrigger:{trigger:'.key-grid',start:'top 82%'},ease:'power3.out'});
+// Click press effect
+document.querySelectorAll('.key').forEach(k=>{
+  k.addEventListener('mousedown',()=>k.style.transform='rotateX(32deg) rotateY(-4deg) translateY(10px)');
+  k.addEventListener('mouseup',()=>k.style.transform='');
+  k.addEventListener('mouseleave',()=>k.style.transform='');
+});
 
 // About
 gsap.to('.about-big',{opacity:1,clipPath:'inset(0 0 0% 0)',duration:1,ease:'power4.out',scrollTrigger:{trigger:'#p4',start:'top 75%'}});
@@ -1253,10 +1329,11 @@ function initOverlay3D(canvasEl,caseId){
 
   // Different 3D per case
   const cols={
-    '001':[0x2dffb4,0x00aaff],
+    '001':[0xffb347,0xff6644],
     '002':[0x6c6cff,0xaa44ff],
-    '003':[0xffb347,0xff6644],
-    '004':[0xff6caa,0x6c6cff],
+    '003':[0x2dffb4,0x00aaff],
+    '004':[0x4ecdc4,0x44ffee],
+    '005':[0xff6caa,0x6c6cff],
   }[caseId]||[0x6c6cff,0xff6caa];
 
   const l1=new THREE.PointLight(cols[0],4,15);l1.position.set(2,2,4);os.add(l1);
@@ -1357,17 +1434,17 @@ document.querySelectorAll('.nav-links a').forEach(a=>{
 let _disposeOv3D=null;
 const CASES={
   '001':{
-    title:'Алготрейдинг XAUUSD',
-    sub:'Собственный капитал · Алгоритмическая система · 3+ года в продакшне',
-    result:'+520%',
-    resultLabel:'рост капитала за 3 года ($5k → $31k)',
-    color:'#2dffb4',
-    tags:['Python','MetaTrader 4','MQL4','XAUUSD','Risk Management','Automation'],
+    title:'COO — Capital Skills',
+    sub:'EdTech · Инвестиционные курсы · 3+ года в продакшне',
+    result:'−65% CAC',
+    resultLabel:'с 8 000 до 2 800 ₽ · ROI изменений 3617%',
+    color:'#ffb347',
+    tags:['P&L','OKR/KPI','Unit Economics','CAC/LTV','amoCRM','GetCourse','Team Building','Retention'],
     sections:[
-      {label:'Задача',text:'Построить автономную торговую систему для XAUUSD — актив с высокой волатильностью и ликвидностью. Требование: стабильные результаты без вмешательства человека, жёсткий контроль риска, работа 24/7.'},
-      {label:'Архитектура',text:'Система строится на трёх уровнях: сигнальный движок (80+ паттернов теханализа + новостной фон), риск-менеджер (динамический стоп-лосс, ограничение просадки -3%/день, -12%/мес), исполнительный модуль (MetaTrader 4 + Python-обёртка с логированием каждой сделки в Telegram и Google Sheets).'},
-      {label:'Что под капотом',text:'No Stress Strategy — авторская методология: вход только по подтверждённому сигналу трёх таймфреймов, соотношение Risk:Reward минимум 1:2, максимум 3 открытых позиции одновременно. После 3 убыточных сделок подряд — обязательная пауза и анализ.'},
-      {label:'Результат',text:'$5 000 → $31 000 за 3 года (+520%). Средняя доходность 8–10%/мес. Максимальная просадка за весь период — 11.4%. Система работает в продакшне прямо сейчас. Привлечён внешний капитал $10 000.'},
+      {label:'Задача',text:'Capital Skills — онлайн-школа по инвестициям и трейдингу. На старте: CAC 8 000 ₽, churn первого месяца 35%, команда 5 человек, нет системы управления — собственник вручную закрывает всё. Нужно было снизить стоимость привлечения, удержать студентов и масштабировать выручку без пропорционального роста затрат.'},
+      {label:'Снижение CAC: 8 000 → 2 800 ₽',text:'Пересчитал unit-экономику с нуля и перераспределил маркетинговый бюджет по каналам с реальным CPL. Убрал 4 нерабочих канала, усилил три с ROMI выше 400%. Ввёл A/B-тест лендингов каждые 2 недели — конверсия выросла с 3,1% до 7,8%. Итог: CAC упал с 8 000 до 2 800 ₽ (−65%). Каждый сэкономленный рубль CAC давал +5,4k ₽ к выручке — ROI трансформации 3617%.'},
+      {label:'Снижение Churn: 35% → 14%',text:'Провёл глубинные интервью с ушедшими студентами — выявил 3 ключевые причины оттока: слабый онбординг, перегруженная программа первого месяца, отсутствие прогресса-трекинга. Переработал онбординг: первые 7 дней — только «быстрые победы» без перегруза. Внедрил early warning систему: куратор видит активность каждого студента в реальном времени и делает персональный чекин на 3-й, 7-й и 14-й день. Добавил апселл-цепочку после каждого пройденного модуля — рост LTV на 40%.'},
+      {label:'Результат',text:'CAC: 8 000 → 2 800 ₽ (−65%). Churn: 35% → 14% (−60%). Оборот под управлением: 40M+ ₽. Пик выручки с потока: 1,4 млн ₽/мес. Команда выросла с 5 до 15 человек без потери качества. Собственник вышел из операционки полностью. ROI операционных изменений — 3617%.'},
     ]
   },
   '002':{
@@ -1385,20 +1462,34 @@ const CASES={
     ]
   },
   '003':{
-    title:'COO — Capital Skills',
-    sub:'EdTech · Инвестиционные курсы · 3+ года в продакшне',
-    result:'−65% CAC',
-    resultLabel:'с 8 000 до 2 800 ₽ · ROI изменений 3617%',
-    color:'#ffb347',
-    tags:['P&L','OKR/KPI','Unit Economics','CAC/LTV','amoCRM','GetCourse','Team Building','Retention'],
+    title:'Алготрейдинг XAUUSD',
+    sub:'Собственный капитал · Алгоритмическая система · 3+ года в продакшне',
+    result:'+520%',
+    resultLabel:'рост капитала за 3 года ($5k → $31k)',
+    color:'#2dffb4',
+    tags:['Python','MetaTrader 4','MQL4','XAUUSD','Risk Management','Automation'],
     sections:[
-      {label:'Задача',text:'Capital Skills — онлайн-школа по инвестициям и трейдингу. На старте: CAC 8 000 ₽, churn первого месяца 35%, команда 5 человек, нет системы управления — собственник вручную закрывает всё. Нужно было снизить стоимость привлечения, удержать студентов и масштабировать выручку без пропорционального роста затрат.'},
-      {label:'Снижение CAC: 8 000 → 2 800 ₽',text:'Пересчитал unit-экономику с нуля и перераспределил маркетинговый бюджет по каналам с реальным CPL. Убрал 4 нерабочих канала, усилил три с ROMI выше 400%. Ввёл A/B-тест лендингов каждые 2 недели — конверсия выросла с 3,1% до 7,8%. Итог: CAC упал с 8 000 до 2 800 ₽ (−65%). Каждый сэкономленный рубль CAC давал +5,4k ₽ к выручке — ROI трансформации 3617%.'},
-      {label:'Снижение Churn: 35% → 14%',text:'Провёл глубинные интервью с ушедшими студентами — выявил 3 ключевые причины оттока: слабый онбординг, перегруженная программа первого месяца, отсутствие прогресса-трекинга. Переработал онбординг: первые 7 дней — только «быстрые победы» без перегруза. Внедрил early warning систему: куратор видит активность каждого студента в реальном времени и делает персональный чекин на 3-й, 7-й и 14-й день. Добавил апселл-цепочку после каждого пройденного модуля — рост LTV на 40%.'},
-      {label:'Результат',text:'CAC: 8 000 → 2 800 ₽ (−65%). Churn: 35% → 14% (−60%). Оборот под управлением: 40M+ ₽. Пик выручки с потока: 1,4 млн ₽/мес. Команда выросла с 5 до 15 человек без потери качества. Собственник вышел из операционки полностью. ROI операционных изменений — 3617%.'},
+      {label:'Задача',text:'Построить автономную торговую систему для XAUUSD — актив с высокой волатильностью и ликвидностью. Требование: стабильные результаты без вмешательства человека, жёсткий контроль риска, работа 24/7.'},
+      {label:'Архитектура',text:'Система строится на трёх уровнях: сигнальный движок (80+ паттернов теханализа + новостной фон), риск-менеджер (динамический стоп-лосс, ограничение просадки -3%/день, -12%/мес), исполнительный модуль (MetaTrader 4 + Python-обёртка с логированием каждой сделки в Telegram и Google Sheets).'},
+      {label:'Что под капотом',text:'No Stress Strategy — авторская методология: вход только по подтверждённому сигналу трёх таймфреймов, соотношение Risk:Reward минимум 1:2, максимум 3 открытых позиции одновременно. После 3 убыточных сделок подряд — обязательная пауза и анализ.'},
+      {label:'Результат',text:'$5 000 → $31 000 за 3 года (+520%). Средняя доходность 8–10%/мес. Максимальная просадка за весь период — 11.4%. Система работает в продакшне прямо сейчас. Привлечён внешний капитал $10 000.'},
     ]
   },
   '004':{
+    title:'Цифровизация контроля полевого персонала',
+    sub:'960 промоутеров · 24 филиала · 6 городов России',
+    result:'960+',
+    resultLabel:'промоутеров в единой системе — верификация часы → минуты',
+    color:'#4ecdc4',
+    tags:['Python','Telegram Bot API','aiogram','Geolocation Verification','24 филиала','~960 пользователей'],
+    sections:[
+      {label:'Контекст',text:'Рекламно-распространительная компания с сетью из 24 филиалов по всей России. Промоутеры разносили рекламные листовки по подъездам и присылали фотоотчёты в Telegram-чаты. Руководители вручную пересматривали сотни фото в день, считали маршруты и рассчитывали зарплату. Полная зависимость от человеческого фактора — и открытая дверь для мухлежа.'},
+      {label:'Проблема',text:'~40 промоутеров на каждый из 24 филиалов. Руководители ежедневно тратили часы на ручную верификацию. Промоутеры могли приписывать подъезды, которые не обходили — прямой убыток компании. Масштабирование сети упиралось в операционный потолок.'},
+      {label:'Решение',text:'Telegram-бот с нулевым порогом входа: тот же мессенджер, что уже используют все. Промоутер загружает фото подъезда в бот. Система автоматически верифицирует геолокационные метаданные снимка, считает пройденные подъезды, сравнивает с дневным планом, рассчитывает зарплату. Руководитель получает готовую сводку — без ручной работы.'},
+      {label:'Результат',text:'Верификация отчётов: часы → минуты. Мухлёж с подъездами полностью исключён — геолокация не подделывается. 960+ промоутеров в единой системе без переобучения. Система масштабируется на любое число новых филиалов без изменения интерфейса.'},
+    ]
+  },
+  '005':{
     title:'Ахиллес — Personal AI OS',
     sub:'Собственный продукт · Flask + Claude API · In Production',
     result:'24/7',
