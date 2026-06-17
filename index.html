@@ -215,6 +215,9 @@ nav{
 .ci-right{text-align:right;white-space:nowrap}
 .ci-res{font-size:34px;font-weight:700;letter-spacing:-1.5px}
 .ci-tag{font-size:10px;color:rgba(255,255,255,.2);letter-spacing:1px;margin-top:4px}
+.ci-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.badge{font-size:10px;font-weight:600;letter-spacing:.3px;padding:3px 9px;border-radius:4px;background:rgba(108,108,255,.1);border:1px solid rgba(108,108,255,.2);color:rgba(108,108,255,.9);white-space:nowrap;transition:background .2s,border-color .2s}
+.ci:hover .badge{background:rgba(108,108,255,.15);border-color:rgba(108,108,255,.35)}
 
 /* ── SECTION 3D CANVAS ───────────────────────────────── */
 .sec-canvas{
@@ -666,6 +669,9 @@ footer{
       <div class="ci-body">
         <div class="ci-title">COO — Capital Skills: снижение CAC −65%</div>
         <div class="ci-desc">EdTech. CAC 8 000 → 2 800 ₽ (−65%), Churn 35% → 14% (−60%), оборот 40M+ ₽. ROI операционных изменений — 3617%. Команда 5 → 15 чел за 1,5 года.</div>
+        <div class="ci-badges">
+          <span class="badge">P&amp;L</span><span class="badge">OKR/KPI</span><span class="badge">Unit Economics</span><span class="badge">amoCRM</span><span class="badge">GetCourse</span><span class="badge">Team Building</span>
+        </div>
       </div>
       <div class="ci-right"><div class="ci-res" style="color:#ffb347">−65%</div><div class="ci-tag">COO · EDTECH · CAC · CHURN</div></div>
     </div>
@@ -674,6 +680,9 @@ footer{
       <div class="ci-body">
         <div class="ci-title">Автоматизация HR-воронки</div>
         <div class="ci-desc">AI-скринер 1000 резюме + Telegram-бот первичного интервью. Найм ускорился в 20 раз, срок закрытия вакансии: 21 → 12 дней.</div>
+        <div class="ci-badges">
+          <span class="badge">Claude API</span><span class="badge">Python</span><span class="badge">Playwright</span><span class="badge">Telegram Bot</span><span class="badge">Google Sheets</span><span class="badge">hh.ru</span>
+        </div>
       </div>
       <div class="ci-right"><div class="ci-res p">×20</div><div class="ci-tag">AI · HR · AUTOMATION</div></div>
     </div>
@@ -682,6 +691,9 @@ footer{
       <div class="ci-body">
         <div class="ci-title">Алготрейдинг XAUUSD</div>
         <div class="ci-desc">Автономная торговая система: риск-менеджмент, 80+ паттернов, просадка &lt;12%. Привлечён внешний капитал $10k.</div>
+        <div class="ci-badges">
+          <span class="badge">Python</span><span class="badge">MetaTrader 4</span><span class="badge">MQL4</span><span class="badge">Risk Management</span><span class="badge">XAUUSD</span>
+        </div>
       </div>
       <div class="ci-right"><div class="ci-res g">+520%</div><div class="ci-tag">AI · TRADING · 3+ ГОДА</div></div>
     </div>
@@ -690,6 +702,9 @@ footer{
       <div class="ci-body">
         <div class="ci-title">Цифровизация контроля полевого персонала</div>
         <div class="ci-desc">Telegram-бот для 960 промоутеров в 24 филиалах. Авто-верификация фотоотчётов, геолокация, расчёт зарплат. Проверка: часы → минуты. Мухлёж исключён.</div>
+        <div class="ci-badges">
+          <span class="badge">Python</span><span class="badge">aiogram</span><span class="badge">Telegram Bot</span><span class="badge">Geo Verification</span><span class="badge">24 филиала</span>
+        </div>
       </div>
       <div class="ci-right"><div class="ci-res" style="color:#4ecdc4" data-count="960">960+</div><div class="ci-tag">TG BOT · GEO · FIELD OPS</div></div>
     </div>
@@ -697,9 +712,23 @@ footer{
       <div class="ci-n">005</div>
       <div class="ci-body">
         <div class="ci-title">Ахиллес — Personal AI OS</div>
-        <div class="ci-desc">Проактивный ассистент на VPS: голос, Playwright-автоматизация, мониторинг рынка и карьеры. Аналог бизнес-ассистента за цену сервера.</div>
+        <div class="ci-desc">~8 000 строк кода. reasoning_engine (8 типов запросов), wisdom_base (20 ментальных моделей), critique_loop (6 критериев качества), LLM-роутинг Claude→Groq→GigaChat, 112 голосовых команд. Заменяет бизнес-ассистента на ежедневные задачи: брифинг, CRM, мониторинг рекрутеров.</div>
+        <div class="ci-badges">
+          <span class="badge">Python</span><span class="badge">Flask</span><span class="badge">Claude API</span><span class="badge">Groq</span><span class="badge">Playwright</span><span class="badge">Telegram Bot</span><span class="badge">VPS · nginx</span>
+        </div>
       </div>
-      <div class="ci-right"><div class="ci-res p">24/7</div><div class="ci-tag">AI · PRODUCT · IN PROD</div></div>
+      <div class="ci-right"><div class="ci-res p">24/7</div><div class="ci-tag">AI · PRODUCT · 8 000 LOC</div></div>
+    </div>
+    <div class="ci">
+      <div class="ci-n">006</div>
+      <div class="ci-body">
+        <div class="ci-title">AI-автоматизация поиска работы — 390+ откликов в день</div>
+        <div class="ci-desc">Автоматические отклики на hh.ru (310+/день) + 5 платформ параллельно. Каскад капчи: ddddocr → EasyOCR → Claude Vision. Groq AI-фильтр вакансий (HOT/RELEVANT/SKIP). Авто-генерация персональных ответов рекрутерам. 0 ручного труда.</div>
+        <div class="ci-badges">
+          <span class="badge">Python</span><span class="badge">Playwright</span><span class="badge">Groq AI</span><span class="badge">Claude Vision</span><span class="badge">hh.ru API</span><span class="badge">6 платформ</span>
+        </div>
+      </div>
+      <div class="ci-right"><div class="ci-res g">86</div><div class="ci-tag">СОБЕСОВ · 2 НЕДЕЛИ · 0 РУЧНОГО</div></div>
     </div>
   </div>
 </section>
@@ -1334,6 +1363,7 @@ function initOverlay3D(canvasEl,caseId){
     '003':[0x2dffb4,0x00aaff],
     '004':[0x4ecdc4,0x44ffee],
     '005':[0xff6caa,0x6c6cff],
+    '006':[0x2dffb4,0x6c6cff],
   }[caseId]||[0x6c6cff,0xff6caa];
 
   const l1=new THREE.PointLight(cols[0],4,15);l1.position.set(2,2,4);os.add(l1);
@@ -1493,14 +1523,28 @@ const CASES={
     title:'Ахиллес — Personal AI OS',
     sub:'Собственный продукт · Flask + Claude API · In Production',
     result:'24/7',
-    resultLabel:'автономная работа на VPS',
+    resultLabel:'автономная работа на VPS · ~8 000 строк кода',
     color:'#ff6caa',
-    tags:['Claude API','Flask','Python','Telegram Bot','VPS','Nginx','Playwright','ElevenLabs'],
+    tags:['Claude API','Groq','GigaChat','Flask','Python','Telegram Bot API','VPS','Nginx','Playwright','systemd'],
     sections:[
-      {label:'Концепция',text:'Персональный проактивный AI-ассистент который живёт на VPS и сам инициирует действия — не ждёт запроса, а отслеживает контекст жизни и действует превентивно. Аналог живого бизнес-ассистента, который стоит 50–100к/мес, за цену VPS-сервера.'},
-      {label:'Что умеет сейчас',text:'Голосовое управление через браузер и Telegram, автоматический заказ такси и еды через Playwright, мониторинг вакансий и ответов рекрутеров на hh.ru, алёрты по торговым сигналам XAUUSD, утренний брифинг с задачами из Obsidian, календарный агент с каскадным переносом встреч.'},
-      {label:'Архитектура',text:'Flask ~5 000 строк + Claude Sonnet 4.6 в agentic loop с 35+ инструментами. Nginx на VPS, HTTPS, Telegram Bot как мобильный интерфейс. Launchd-агенты на Mac для фоновых задач. Action Ledger — лог всех действий с возможностью отката.'},
-      {label:'V2 — Personal OS',text:'Переосмысление концепции: система которая знает цели, привычки, финансы, расписание — и проактивно помогает их достигать без запроса. Три уровня автономии: мониторит → напоминает → действует. Разрабатывается как SaaS-продукт для продажи.'},
+      {label:'Концепция',text:'Персональный проактивный AI-ассистент на VPS. reasoning_engine (8 типов запросов + фреймворки мышления), wisdom_base (20 ментальных моделей), critique_loop (6 критериев качества). LLM-роутинг: Claude → Groq → GigaChat с авто-fallback. 112 голосовых команд, iOS клиент.'},
+      {label:'Что умеет',text:'Голосовое управление через браузер и Telegram, Playwright-автоматизация браузера, мониторинг вакансий и ответов рекрутеров на hh.ru, алёрты по торговым сигналам XAUUSD, утренний брифинг с задачами из CRM, авто-ответы на приглашения работодателей через Groq AI.'},
+      {label:'Архитектура',text:'Flask ~8 000 строк + Claude в agentic loop с 35+ инструментами. Nginx на VPS, HTTPS, Telegram Bot как мобильный интерфейс. Launchd-агенты на Mac для фоновых задач (8 расписаний). Action Ledger — лог всех действий с возможностью отката.'},
+      {label:'Результат',text:'Заменяет ассистента на ежедневные задачи: брифинг, CRM-обновление, мониторинг рекрутеров. Экономит 2–3 часа в день. В продакшне 24/7. Разрабатывается как SaaS-продукт: три уровня автономии — мониторит → напоминает → действует.'},
+    ]
+  },
+  '006':{
+    title:'AI-автоматизация поиска работы',
+    sub:'Собственный инструмент · Python + Playwright · 390+ откликов/день',
+    result:'86',
+    resultLabel:'собеседований за 2 недели · 0 ручного труда',
+    color:'#2dffb4',
+    tags:['Python','Playwright','Groq AI','Claude Vision','ddddocr','EasyOCR','hh.ru','6 платформ','launchd'],
+    sections:[
+      {label:'Задача',text:'Автоматизировать поиск работы полностью: отклики, фильтрация вакансий, ответы рекрутерам — без ручного труда. Цель: 300+ релевантных откликов в день на hh.ru и параллельных платформах.'},
+      {label:'Архитектура',text:'hh_apply_ai_manager.py — отклики на hh.ru (310+/день). job_parallel.py — 6 платформ параллельно (hh, rabota.ru, zarplata.ru, habr, getmatch, budu.ru). Каскад капчи: ddddocr → EasyOCR → Claude Vision (с фильтром мусорного OCR). Groq llama-3.3-70b — AI-фильтр: HOT/RELEVANT/NEUTRAL/SKIP. launchd запуск 4 раза в сутки.'},
+      {label:'Умный фильтр',text:'Groq AI анализирует каждую вакансию по 8 критериям: удалёнка, AI/COO, зарплата, стек. Категории: HOT (8-10 баллов) → TG-алерт, RELEVANT (6-7) → откликаться, NEUTRAL (4-5) → откликаться, SKIP (<4) → пропустить. Персональное сопроводительное письмо под каждую вакансию.'},
+      {label:'Результат',text:'390+ откликов/день автоматически. 86 собеседований за 2 недели. negotiations_monitor.py — авто-ответы на приглашения рекрутеров через Groq, авто-заполнение Google форм. 0 ручного труда. Система работает в продакшне прямо сейчас.'},
     ]
   },
 };
